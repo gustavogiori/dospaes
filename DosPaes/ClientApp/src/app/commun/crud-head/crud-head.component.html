@@ -1,0 +1,40 @@
+<section class="content-header">
+  <h1>
+    {{type}}
+    <small>Cadastro de {{type}}</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li><a (click)="redirectToList()"><i class="fa fa-list"></i> Lista</a></li>
+    <li class="active">{{type}}</li>
+  </ol>
+</section>
+<section class="content">
+  <div class="box box-info">
+    <div class="box-header ui-sortable-handle" style="cursor: move;">
+      <i class="fa fa-plus"></i>
+
+      <h3 class="box-title">{{newText}} {{type}}</h3>
+    </div>
+    <div class class="box-body">
+      <ng-content select="[contentForm]"></ng-content>
+      <div>
+      <ng-content select="[buttons]"></ng-content>
+      <button id="btnRedirect" (click)="redirectToList()" class="btn btn-danger btnStyle">Voltar</button>
+      </div>
+      <div *ngIf="submitted">
+       <br>
+        <div class="alert alert-success" role="alert">
+          <h4 class="alert-heading">Tudo certo!</h4>
+          <p class="mb-0">{{msgSucesso}}</p>
+        </div>
+      </div>
+      <br />
+      <div *ngIf="hasError">
+        <div class="alert alert-danger" role="alert">
+           {{msgError}}
+        </div>
+      </div>
+  </div>
+  </div>
+</section>

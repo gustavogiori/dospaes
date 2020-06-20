@@ -1,0 +1,10 @@
+<app-list [urlRedirectToCreate]="redirectToCreate" [text]="text" [tableHeads]="tableHead"
+[tableDatas]="produtoDetails" 
+[tableColName]="tableColName"
+[columnKey]="columnKey"
+[urlRedirectToEdit]="redirectToEdit"
+[urlRedirectToDelete]="redirectToDelete" ></app-list>  
+<div class="content">
+    <div *ngIf="loading" class="loading">Aguarde...</div>
+    <router-outlet *ngIf="!loading"></router-outlet>
+  </div>
