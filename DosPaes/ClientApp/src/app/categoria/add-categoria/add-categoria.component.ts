@@ -1,50 +1,41 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { CategoriaService } from "../../service/categoria.service";
 import { Router } from "@angular/router";
+import { AddBase } from "../../commun/AddBase";
 
 @Component({
   selector: "app-add-categoria",
   templateUrl: "./add-categoria.component.html",
   styleUrls: ["./add-categoria.component.css"],
+  providers: [CategoriaService],
 })
-export class AddCategoriaComponent implements OnInit {
+export class AddCategoriaComponent extends AddBase {
   redirectToList() {
     this.router.navigateByUrl("dashboard/categoria");
   }
   categoria = {
-    descricao: ""
+    descricao: "",
   };
-  submitted = false;
-  hasError = false;
-  msgError = "";
-  constructor(private router: Router,private categoriaService: CategoriaService) {}
+
+  constructor(
+    protected router: Router,
+    protected categoriaService: CategoriaService
+  ) {
+    super(router, categoriaService);
+    this.msgSucess = "Categoria cadastrada com sucesso!";
+    this.newText = "Nova";
+    this.type = "Categoria";
+    this.redirectToListUrl = "dashboard/categoria";
+  }
   public categorias: any[];
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
   saveProduto() {
-    const data = {
-      Id: 0,
-      Descricao: this.categoria.descricao
-    };
-    this.categoriaService.create(data).subscribe(
-      (response) => {
-        console.log(response);
-        this.submitted = true;
-      },
-      (error) => {
-        this.submitted = false;
-        this.hasError = true;
-        this.msgError = error;
-        console.log(error);
-      }
-    );
+    this.save(this.categoria);
+    this.clear();
   }
-
-  newProduto() {
-    this.submitted = false;
+  clear() {
     this.categoria = {
-      descricao: ""
+      descricao: "",
     };
   }
 }

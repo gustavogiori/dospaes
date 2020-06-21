@@ -13,7 +13,12 @@ export class CrudHeadComponent implements OnInit {
   @Input() msgSucesso: string;
   @Input() newText: string;
   @Input() redirectToListUrl: string;
-  
+  @Input() iconHead: string;
+
+  redirectToHome() {
+    this.router.navigateByUrl('dashboard/home');
+  }
+
   redirectToList() {
     this.router.navigateByUrl(this.redirectToListUrl);
   }

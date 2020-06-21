@@ -4,7 +4,7 @@
     <small>Cadastro de {{type}}</small>
   </h1>
   <ol class="breadcrumb">
-    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li><a (click)="redirectToHome()"><i class="fa fa-dashboard"></i> Home</a></li>
     <li><a (click)="redirectToList()"><i class="fa fa-list"></i> Lista</a></li>
     <li class="active">{{type}}</li>
   </ol>
@@ -12,7 +12,7 @@
 <section class="content">
   <div class="box box-info">
     <div class="box-header ui-sortable-handle" style="cursor: move;">
-      <i class="fa fa-plus"></i>
+      <i class={{iconHead}}></i>
 
       <h3 class="box-title">{{newText}} {{type}}</h3>
     </div>

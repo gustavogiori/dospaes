@@ -2,57 +2,38 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { Produto } from "src/app/models/produto";
 import { ProdutoService } from "../../service/produto.service";
+import { DeleteBase } from "../../commun/DeleteBase";
 
 @Component({
   selector: "app-delete-produto",
   templateUrl: "./delete-produto.component.html",
   styleUrls: ["./delete-produto.component.css"],
+  providers: [ProdutoService],
 })
-export class DeleteProdutoComponent implements OnInit {
-  submitted = false;
-  hasError = false;
-  disabled=false;
-  redirectToListUrl="dashboard/produto";
-  id: 0;
-  msgError = "";
-  msgSucess = "Deletado cadastrado com sucesso!";
-  newText = "Novo";
-  type = "Produto";
+export class DeleteProdutoComponent extends DeleteBase {
   produto: Produto;
+  descricao = "";
+  id: 0;
   redirectToList() {
     this.router.navigateByUrl(this.redirectToListUrl);
   }
   deleteProduto() {
-    this.produtoService.delete(this.id).subscribe(
-      () => {
-        this.submitted=true;
-        this.hasError=false;
-        this.disabled=true;
-        this.msgSucess='Deletado com Sucesso';
-      }, error => {
-        this.submitted=false;
-        this.hasError=true;
-        this.disabled=false;
-        this.msgError='Erro ao tentar Deletar';
-        console.log(error);
-      }
-    );
+    this.delete(this.id);
   }
 
   constructor(
-    private produtoService: ProdutoService,
+    protected produtoService: ProdutoService,
     public route: ActivatedRoute,
-    private router: Router
-  ) {}
+    protected router: Router
+  ) {
+    super(produtoService, route);
+    this.redirectToListUrl = "dashboard/produto";
+    this.msgSucess = "Produto deletado com sucesso!";
+    this.newText = "Deletar";
+    this.type = "Produto";
+  }
 
   ngOnInit() {
-    this.route.params.subscribe((params: Params) => {
-      alert(this.id);
-      this.id = params["id"];
-      alert(this.id);
-      this.produtoService.get(this.id).subscribe((data) => {
-        this.produto = data;
-      });
-    });
+    super.ngOnInit();
   }
 }

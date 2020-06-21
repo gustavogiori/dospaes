@@ -1,13 +1,13 @@
 <app-crud-head [submitted]="submitted" [hasError]="hasError" [msgError]="msgError"
-[msgSucesso]="msgSucess" [newText]= "newText" [type]="type" [redirectToListUrl]="redirectToListUrl">
+[msgSucesso]="msgSucess" [newText]= "newText" [type]="type" [redirectToListUrl]="redirectToListUrl"
+[iconHead]="iconHead">
   <div contentForm>
 
-   <h1>Deseja realmente deletar o produto?</h1>
-   <label>Código</label>
-   <label>{{id}}</label>
+   <h1>Deseja realmente deletar o produto: {{record.id}} - {{record.descricao}}?</h1>
    <div>
 
     <button type="button" id="btnConfirmar" [disabled]="disabled" (click)="deleteProduto()" class="btn btn-success btnStyle">Deletar</button>
   </div>
   </div>
 </app-crud-head>
+<app-load-component [loading]="loading"></app-load-component>

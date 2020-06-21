@@ -1,0 +1,13 @@
+<app-crud-head [submitted]="submitted" [hasError]="hasError" [msgError]="msgError"
+[msgSucesso]="msgSucess" [newText]= "newText" [type]="type" [redirectToListUrl]="redirectToListUrl"
+[iconHead]="iconHead">
+  <div contentForm>
+    <h1>Deseja realmente deletar a despesa: {{record.local}} - {{record.valor}}?</h1>
+
+   <div>
+
+    <button type="button" id="btnConfirmar" [disabled]="disabled" (click)="deleteCusto()" class="btn btn-success btnStyle">Deletar</button>
+  </div>
+  </div>
+</app-crud-head>
+<app-load-component [loading]="loading"></app-load-component>

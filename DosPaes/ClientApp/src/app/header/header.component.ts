@@ -25,6 +25,12 @@ export class HeaderComponent{
     redirectToCategoria() {
         this.router.navigateByUrl('dashboard/categoria');
     }
+    redirectToCustos() {
+        this.router.navigateByUrl('dashboard/custo');
+    }
+    redirectToVendas() {
+        this.router.navigateByUrl('dashboard/venda');
+    }
     logMeOut(){
         this.router.navigateByUrl('login');
     }
