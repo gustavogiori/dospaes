@@ -9,7 +9,14 @@ export class ServiceBaseService {
   getAll(): Observable<any[]> {
     return this.http.get<any[]>(this.baseUrl);
   }
-
+  filter(campo,valor):Observable<any> { 
+    if(valor){
+    return this.http.get<any>(`${this.baseUrl}/${campo}/${valor}`);
+    }
+    else{
+    return this.getAll();
+    }
+  }
   get(id):Observable<any> { 
     return this.http.get<any>(`${this.baseUrl}/${id}`);
   }
@@ -34,5 +41,5 @@ export class ServiceBaseService {
     return this.http.delete(this.baseUrl);
   }
 
-  constructor(protected http: HttpClient, protected baseUrl: string) {}
+  constructor(protected http: HttpClient, public baseUrl: string) {}
 }

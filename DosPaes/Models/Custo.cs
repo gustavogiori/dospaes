@@ -9,6 +9,7 @@ namespace Dos_Paes.Models
     {
         public int Id { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime Data { get; set; }
 
         [Required]

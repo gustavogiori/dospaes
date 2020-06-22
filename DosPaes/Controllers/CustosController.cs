@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Dos_Paes.Models;
+using System.Text.Json;
+using Newtonsoft.Json;
 
 namespace DosPaes.Controllers
 {
@@ -21,14 +23,16 @@ namespace DosPaes.Controllers
 
         // GET: api/Custos
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Custo>>> GetCustos()
+        public async Task<ActionResult<string>> GetCustos()
         {
-            return await _context.Custos.ToListAsync();
+            var custos = await _context.Custos.ToListAsync();
+            var json = DosPaes.Service.JsonService<List<Custo>>.GetJson(custos);
+            return json;
         }
 
         // GET: api/Custos/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Custo>> GetCusto(int id)
+        public async Task<ActionResult<string>> GetCusto(int id)
         {
             var custo = await _context.Custos.FindAsync(id);
 
@@ -37,7 +41,8 @@ namespace DosPaes.Controllers
                 return NotFound();
             }
 
-            return custo;
+            var json = Service.JsonService<Custo>.GetJson(custo);
+            return json;
         }
 
         // PUT: api/Custos/5

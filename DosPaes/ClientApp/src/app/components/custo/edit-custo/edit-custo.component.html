@@ -1,0 +1,22 @@
+<app-crud-head [submitted]="submitted" [hasError]="hasError" [msgError]="msgError" [msgSucesso]="msgSucess"
+  [newText]="newText" [type]="type" [iconHead]="iconHead" [redirectToListUrl]="redirectToListUrl">
+  <div contentForm>
+    <div class="submit-form">
+      <div class="form-group">
+        <label for="data">Data</label>
+        <input type="date" class="form-control" id="data" required [(ngModel)]="custo.Data" name="data" />
+      </div>
+      <div class="form-group">
+        <label for="local">Local</label>
+        <input type="text" class="form-control" id="local" required [(ngModel)]="custo.Local" name="local" />
+      </div>
+      <div class="form-group">
+        <label for="valor">Valor</label>
+        <input class="form-control" id="valor" required [(ngModel)]="custo.Valor" currencyMask
+          [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" name="valor" />
+      </div>
+      <button id="btnSalvar" (click)="saveCusto()" class="btn btn-success btnStyle">Savar</button>
+    </div>
+  </div>
+</app-crud-head>
+<app-load-component [loading]="loading"></app-load-component>

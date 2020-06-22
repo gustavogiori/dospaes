@@ -45,7 +45,26 @@ namespace Dos_Paes.Controllers
 
             return produto;
         }
+        // GET: api/Produtos/5
+        [HttpGet("{campo}/{valor}")]
+        public async Task<ActionResult<string>> GetProduto(string campo="", string valor="")
+        {
+            // var produto = await _context.Produtos.ToListAsync();
+            IQueryable<Produto> produto = _context.Produtos.Include(x => x.Categoria).AsQueryable();
+            List<Produto> produtos;
+            if (campo != "" || valor != "")
+                produtos = Service.QueryService<Produto>.GetListFromFilter(campo, valor, produto);
+            else
+                produtos = produto.ToList();
 
+            if (produtos == null)
+            {
+                return NotFound();
+            }
+            JsonSerializer serializer = new JsonSerializer();
+            string json = JsonConvert.SerializeObject(produtos, Formatting.Indented);
+            return json;
+        }
         // PUT: api/Produtos/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.

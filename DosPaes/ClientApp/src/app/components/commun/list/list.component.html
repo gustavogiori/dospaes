@@ -1,0 +1,69 @@
+<section class="content-header">
+  <h1>
+    {{text}}
+    <small>Lista de {{text}}</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active"> {{text}}</li>
+  </ol>
+</section>
+<section class="content">   
+  <div class="container">
+  
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+
+        <div class="panel panel-default panel-table">
+          <div class="panel-heading">
+            <div class="row">
+              <div class="col col-xs-4">
+                <select class="form-control " [(ngModel)]="campo" id="Campo" name="Campo">
+                  <option value="">Selecione um item</option>
+                  
+                  <option *ngFor="let filtro of Filter" value={{filtro.valor}}>{{filtro.campo}}</option> 
+                  
+                </select>
+              </div>
+              <div class="col col-xs-3">
+                <input id="filter" [(ngModel)]="valor"  name="valor" class="form-control" />
+              </div>
+              <div class="col col-xs-2">
+                <button (click)="filter()" type="submit" value="Filter" class="btn btn-default fa fa-search" ></button>
+              </div>
+              
+              <div class="col col-xs-3">
+                <a title="Novo" (click)="redirectToCreate()" class="btn btn-primary"><em
+                  class="fa fa-plus"></em></a>
+              </div>
+            </div>
+          </div>
+          
+          <div class="panel-body">
+            <table class="table table-striped table-bordered table-list">
+              <thead>
+                <tr class="table-head">
+                  <th><em class="fa fa-cog"></em></th>
+                  <th *ngFor="let tableHead of tableHeads">{{tableHead}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let tableData of tableDatas">
+                  <td align="center">
+                    <a title="Editar" (click)="redirectToEdit(tableData[columnKey])" class="btn btn-default"><em
+                        class="fa fa-pencil"></em></a>
+                    <a title="Deletar" (click)="redirectToDelete(tableData[columnKey])" class="btn btn-danger"><em
+                        class="fa fa-trash"></em></a>
+                  </td>
+                  <td *ngFor="let colName of tableColNameGenerated"> {{tableData[colName]}}</td>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>

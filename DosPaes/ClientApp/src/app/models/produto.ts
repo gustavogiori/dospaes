@@ -1,6 +1,7 @@
 export class Produto {
-  id: number;
-  descricao: string;
-  valor: number;
-  categoria: number;
+  Id: number;
+  Descricao: string;
+  Valor: number;
+  CategoriaDescricao: string;
+  IdCategoria: number;
 }

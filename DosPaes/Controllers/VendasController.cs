@@ -17,16 +17,15 @@ namespace DosPaes.Controllers
     {
         private readonly DataBaseContext _context = new DataBaseContext();
 
-  
+
         // GET: api/Vendas
         [HttpGet]
         public async Task<ActionResult<string>> GetVendas()
         {
             try
             {
-                Newtonsoft.Json.JsonSerializer serializer = new Newtonsoft.Json.JsonSerializer();
                 var list = await _context.Vendas.Include(x => x.Produto).ToListAsync();
-                string json = JsonConvert.SerializeObject(list, Formatting.Indented);
+                var json = Service.JsonService<List<Venda>>.GetJson(list);
                 return json;
             }
             catch (Exception ex)
@@ -37,7 +36,7 @@ namespace DosPaes.Controllers
 
         // GET: api/Vendas/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Venda>> GetVenda(int id)
+        public async Task<ActionResult<string>> GetVenda(int id)
         {
             var venda = await _context.Vendas.FindAsync(id);
 
@@ -45,8 +44,8 @@ namespace DosPaes.Controllers
             {
                 return NotFound();
             }
-
-            return venda;
+            var json = Service.JsonService<Venda>.GetJson(venda);
+            return json;
         }
 
         // PUT: api/Vendas/5
