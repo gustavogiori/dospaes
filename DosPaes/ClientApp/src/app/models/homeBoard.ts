@@ -1,5 +1,5 @@
 export class HomeBoard {
-    QntVedas: number;
+    QntVendas: number;
     Despesas: number;
     Vendas: number;
     SubTotal: number;
