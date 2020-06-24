@@ -21,7 +21,7 @@ namespace DosPaes.Controllers
             var custos = await _context.Custos.ToListAsync();
             var vendas = await _context.Vendas.ToListAsync();
             var home = new HomeBoard();
-            home.QntVedas = vendas.Count;
+            home.QntVendas = vendas.Count;
             home.Despesas = custos.Sum(x => x.Valor);
             home.Vendas = vendas.Sum(x => x.Valor);
             home.SubTotal = home.Vendas - home.Despesas;
