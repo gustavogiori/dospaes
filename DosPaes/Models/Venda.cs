@@ -2,7 +2,7 @@
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Dos_Paes.Models
+namespace DosPaes.Models
 {
     public partial class Venda
     {
@@ -22,9 +22,38 @@ namespace Dos_Paes.Models
                 return Produto?.Descricao;
             }
         }
+        [NotMapped]
+        public string ClienteNome
+        {
+            get
+            {
+                return Cliente?.Nome;
+            }
+        }
+        [NotMapped]
+        public string ClienteEndereco
+        {
+            get
+            {
+                return Cliente?.Endereco;
+            }
+        }
+        [NotMapped]
+        public string ClienteTelefone
+        {
+            get
+            {
+                return Cliente?.Telefone1;
+            }
+        }
         public int? IdProduto { get; set; }
-        [JsonIgnore]
+        public int? IdCliente { get; set; }
+        public bool Entregue { get; set; }
+      
         [ForeignKey("IdProduto")]
         public virtual Produto Produto { get; set; }
+   
+        [ForeignKey("IdCliente")]
+        public virtual Cliente Cliente { get; set; }
     }
 }

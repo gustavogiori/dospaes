@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Dos_Paes.Service
+namespace DosPaes.Service
 {
     public static class QueryService<T>
     {

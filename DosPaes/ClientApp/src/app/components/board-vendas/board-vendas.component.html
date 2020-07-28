@@ -1,0 +1,84 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Controle de vendas
+        <small>Control panel</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Controle de vendas</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="box box-info">
+        <div class="box-header ui-sortable-handle" style="cursor: move;">
+            <i class="fa fa-line-chart"></i>
+
+            <h3 class="box-title">Estatisticas</h3>
+        </div>
+        <div class class="box-body">
+
+
+            <div class="form-inline">
+                <label class="label2" for="filter">Visualizar por:</label>
+                <select (ngModelChange)="onChangeSelectedFilter($event)" [(ngModel)]="typeFilter"
+                    class="form-control filter" name="filter" required>
+                    <option value="H" selected>Hoje</option>
+                    <option value="A">Amanhã</option>
+                    <option value="O">Ontem</option>
+                    <option value="P">Data especifico</option>
+                </select>
+                <label *ngIf="isCustomFilterOn" class="label2">Data:</label>
+                <input *ngIf="isCustomFilterOn" class="form-control filter" [(ngModel)]="dataFilter" type="date">
+                <button id="btnSalvar" (click)="filterData()" class="btn btn-default bntFiltrar">Filtrar</button>
+            </div>
+            <br />
+
+            <div *ngFor="let board of boards">
+                <div class="panel-group" id="accordion">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#{{board.Id}}">
+                                    {{board.Produto}}</a>
+                                &nbsp;
+                                <span class="badge badge-primary badge-pill">{{board.Quantidade}}</span>
+                            </h4>
+                        </div>
+
+                        <div id="{{board.Id}}" class="panel-collapse collapse">
+
+                            <div class="panel-body">
+                                <div class="list-group">
+                                    <div *ngFor="let venda of board.Vendas">
+                                        <a
+                                            class="list-group-item list-group-item-action flex-column align-items-start itemList">
+                                            <input #saveUserNameCheckBox id="saveUserNameCheckBox"
+                                                (change)="onSaveUsernameChanged(saveUserNameCheckBox.checked,board.Id,venda.Id)"
+                                                [checked]="venda.Entregue" type="checkbox" class="form-check-input" />
+                                            &nbsp;
+                                            <label class="form-check-label">Entregue</label>
+
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h5 class="mb-1">Cliente: {{venda.ClienteNome}}</h5>
+                                            </div>
+                                            <p class="mb-1">Preço: {{venda.Valor}}</p>
+                                            <p class="mb-1">Quantidade: {{venda.Qnt}}</p>
+                                            <p class="mb-1">Endereço: {{venda.ClienteEndereco}}</p>
+                                            <p class="mb-1">Telefone: {{venda.ClienteTelefone}}</p>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</section>
+<app-load-component [loading]="loading"></app-load-component>

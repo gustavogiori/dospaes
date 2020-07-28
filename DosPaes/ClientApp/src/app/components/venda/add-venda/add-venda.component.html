@@ -3,11 +3,21 @@
   <div contentForm>
     <div class="form-group">
       <label for="IdProduto">Produto</label>
-      <select (ngModelChange)="onChangeProdutoSelecionado($event)" [(ngModel)]="this.venda.IdProduto" class="form-control" name="IdProduto" value="IdProduto" required>
+      <select (ngModelChange)="onChangeProdutoSelecionado($event)" [(ngModel)]="this.venda.IdProduto"
+        class="form-control" name="IdProduto" value="IdProduto" required>
         <option value="">Selecione um produto...</option>
         <option *ngFor="let produto of produtos" [ngValue]="produto.Id">
           {{ produto.Descricao }}</option>
       </select>
+    </div>
+    <div class="form-group">
+      <label for="IdCliente">Cliente</label>
+      <select class="selectpicker" data-show-subtext="true" data-live-search="true" [(ngModel)]="this.venda.IdCliente"
+        class="form-control" name="IdCliente" value="IdCliente" required>
+        <option value="">Selecione um cliente...</option>
+        <option *ngFor="let cliente of clientes" [ngValue]="cliente.Id">
+          {{ cliente.Nome }}</option>
+      </select> 
     </div>
     <div class="form-group">
       <label for="data">Data</label>
@@ -16,7 +26,8 @@
     <div class="submit-form">
       <div class="form-group">
         <label for="qnt">Quantidade</label>
-        <input (ngModelChange)="onChangeQntSelecionado($event)" type="number" class="form-control" id="qnt" required [(ngModel)]="venda.Qnt" name="qnt" />
+        <input (ngModelChange)="onChangeQntSelecionado($event)" type="number" class="form-control" id="qnt" required
+          [(ngModel)]="venda.Qnt" name="qnt" />
       </div>
 
 

@@ -28,7 +28,15 @@ import { ListVendaComponent } from "./components/venda/list-venda/list-venda.com
 import { AddVendaComponent } from "./components/venda/add-venda/add-venda.component";
 import { EditVendaComponent } from "./components/venda/edit-venda/edit-venda.component";
 import { DeleteVendaComponent } from "./components/venda/delete-venda/delete-venda.component";
+import {ListClienteComponent} from "./components/cliente/list-cliente/list-cliente.component";
+import { AddClienteComponent } from "./components/cliente/add-cliente/add-cliente.component";
+import { EditClienteComponent } from "./components/cliente/edit-cliente/edit-cliente.component";
+import { DeleteClienteComponent } from "./components/cliente/delete-cliente/delete-cliente.component";
+import { FormClienteComponent } from "./components/cliente/form-cliente/form-cliente.component";
+import { BoardVendasComponent } from "./components/board-vendas/board-vendas.component";
 
+
+  import { from } from "rxjs";
 const appRoutes: Routes = [
   {
     path: "dashboard",
@@ -51,6 +59,11 @@ const appRoutes: Routes = [
       { path: "addVenda", component: AddVendaComponent },
       { path: "editVenda/:id", component: EditVendaComponent },
       { path: "deleteVenda/:id", component: DeleteVendaComponent },
+      { path: "cliente", component: ListClienteComponent },
+      { path: "addCliente", component: AddClienteComponent },
+      { path: "editCliente/:id", component: EditClienteComponent },
+      { path: "deleteCliente/:id", component: DeleteClienteComponent },
+      { path: "boardVendas", component: BoardVendasComponent },
     ],
   },
   { path: "login", component: LoginComponent },
@@ -81,7 +94,13 @@ const appRoutes: Routes = [
     ListVendaComponent,
     AddVendaComponent,
     EditVendaComponent,
-    DeleteVendaComponent
+    DeleteVendaComponent,
+    ListClienteComponent,
+    AddClienteComponent,
+    EditClienteComponent,
+    DeleteClienteComponent,
+    FormClienteComponent,
+    BoardVendasComponent
   ],
   imports: [
     FormsModule,

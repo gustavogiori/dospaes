@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Dos_Paes.Models;
+using DosPaes.Models;
+using DosPaes.Util;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,19 +15,24 @@ namespace DosPaes.Controllers
     public class DashboardController : ControllerBase
     {
         private readonly DataBaseContext _context = new DataBaseContext();
+        private Service.IDashboardService _dashboardService;
+        public DashboardController(Service.IDashboardService dashboardService)
+        {
+            _dashboardService = dashboardService;
+        }
         // GET: api/Dashboard
         [HttpGet("GetAllSum")]
-        public async Task<ActionResult<string>> GetCustos()
+        public async Task<ActionResult<string>> GetCustosAsync(string tipo = "", string dataInicio = "", string dataFim = "")
         {
-            var custos = await _context.Custos.ToListAsync();
-            var vendas = await _context.Vendas.ToListAsync();
-            var home = new HomeBoard();
-            home.QntVendas = vendas.Count;
-            home.Despesas = custos.Sum(x => x.Valor);
-            home.Vendas = vendas.Sum(x => x.Valor);
-            home.SubTotal = home.Vendas - home.Despesas;
-            var json = DosPaes.Service.JsonService<HomeBoard>.GetJson(home);
-            return json;
+            try
+            {
+                var filter = new DataFilter() { tipo = tipo, dataInicio = UtilDateTime.ToDateTime(dataInicio), dataFim = UtilDateTime.ToDateTime(dataFim) };
+                return await _dashboardService.GetCustos(filter, _context);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Dos_Paes.Models
+namespace DosPaes.Models
 {
     [Table("Custos")]
     public partial class Custo

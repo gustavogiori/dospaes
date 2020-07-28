@@ -1,4 +1,4 @@
-<div *ngIf="loading" class="loader text-center">
+<div *ngIf="loading" (onchange)="onChange()" class="loader text-center">
     <span class="span"></span>
-    <router-outlet *ngIf="!loading"></router-outlet>
+    <router-outlet *ngIf="loading"></router-outlet>
   </div> 

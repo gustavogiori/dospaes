@@ -9,6 +9,7 @@ import { HttpClient } from "@angular/common/http";
 })
 export class ListComponent implements OnInit {
   @Input() tableHeads: Array<String> = new Array<String>();
+  @Input() tableHeadsCode: Array<String> = new Array<String>();
   @Input() tableDatas;
   @Input() tableColName: Array<String> = new Array<String>();
   tableColNameGenerated: Array<String> = new Array<String>();
@@ -24,6 +25,7 @@ export class ListComponent implements OnInit {
   server: ServiceBaseService;
   campo = "";
   valor = "";
+  
   redirectToCreate() {
     this.router.navigateByUrl(this.urlRedirectToCreate);
   }
@@ -47,12 +49,26 @@ export class ListComponent implements OnInit {
     );
   }
   private getKeys(value: any): Array<String> {
-    return Object.keys(value);
+    let keys = new Array<String>();
+    let teste = Object.keys(value);
+    console.log("teste");
+    console.log(this.tableHeadsCode);
+    console.log(this.tableHeads);
+    teste.forEach((element) => {
+      if (this.tableHeadsCode.indexOf(element) !== -1) {
+        keys.push(element);
+      } else {
+      }
+    });
+    console.log(keys);
+    return keys;
   }
   private isHeadAndColLengthSame(
     head: Array<String>,
     col: Array<String>
   ): Boolean {
+    console.log("head.length"+head.length);
+    console.log("head.length"+col.length);
     return head.length === col.length;
   }
 

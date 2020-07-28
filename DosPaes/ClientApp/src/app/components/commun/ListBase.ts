@@ -2,6 +2,7 @@ import { OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { ServiceBaseService } from "../../service/serviceBase.service";
 
+
 export class ListBase implements OnInit {
   constructor(public router: Router, protected service: ServiceBaseService) {}
   text = "";
@@ -13,6 +14,7 @@ export class ListBase implements OnInit {
   loading = false;
   records = [];
   tableHead: Array<String>;
+  tableHeadCode: Array<String>;
   tableColName: Array<String>;
   Filter;
   ngOnInit(): void {

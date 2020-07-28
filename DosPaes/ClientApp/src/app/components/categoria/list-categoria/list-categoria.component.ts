@@ -31,6 +31,7 @@ export class ListCategoriaComponent extends ListBase {
     this.redirectToDelete = "dashboard/deleteCategoria/";
     this.columnKey = "id";
     this.tableHead = new Array<String>("Código", "Descrição");
+    this.tableHeadCode = new Array<String>("id", "descricao");
     this.categorias = new Array<Categoria>();
   }
   ngOnInit() {

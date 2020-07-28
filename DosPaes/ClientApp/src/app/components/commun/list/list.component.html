@@ -16,26 +16,12 @@
 
         <div class="panel panel-default panel-table">
           <div class="panel-heading">
-            <div class="row">
-              <div class="col col-xs-4">
-                <select class="form-control " [(ngModel)]="campo" id="Campo" name="Campo">
-                  <option value="">Selecione um item</option>
-                  
-                  <option *ngFor="let filtro of Filter" value={{filtro.valor}}>{{filtro.campo}}</option> 
-                  
-                </select>
-              </div>
-              <div class="col col-xs-3">
-                <input id="filter" [(ngModel)]="valor"  name="valor" class="form-control" />
-              </div>
-              <div class="col col-xs-2">
-                <button (click)="filter()" type="submit" value="Filter" class="btn btn-default fa fa-search" ></button>
-              </div>
-              
+            <div class="row">        
               <div class="col col-xs-3">
                 <a title="Novo" (click)="redirectToCreate()" class="btn btn-primary"><em
                   class="fa fa-plus"></em></a>
               </div>
+              <ng-content select="[filterComponent]"></ng-content>
             </div>
           </div>
           

@@ -1,8 +1,23 @@
 <app-list [urlRedirectToCreate]="redirectToCreate" [text]="text" [tableHeads]="tableHead"
-[tableDatas]="records" 
-[tableColName]="tableColName"
-[columnKey]="columnKey"
-[urlRedirectToEdit]="redirectToEdit"
-[urlRedirectToDelete]="redirectToDelete" ></app-list>  
+    [tableHeadsCode]="tableHeadCode" [tableDatas]="records" [tableColName]="tableColName" [columnKey]="columnKey"
+    [urlRedirectToEdit]="redirectToEdit" [urlRedirectToDelete]="redirectToDelete">
+    <div filterComponent>
+        <div class="col col-xs-3">
+            <select (ngModelChange)="onChangeSelectedFilter($event)" class="form-control" [(ngModel)]="typeFilter"
+                id="typeFilter" name="typeFilter">
+                <option value="H" selected>Hoje</option>
+                <option value="A">Amanhã</option>
+                <option value="O">Ontem</option>
+                <option value="P">Data especifico</option>
+            </select>
+        </div>
+        <div *ngIf="isCustomFilterOn" class="col col-xs-3">
+            <input *ngIf="isCustomFilterOn" class="form-control filter" [(ngModel)]="dataFilter" type="date">
+        </div>
+        <div class="col col-xs-2">
+            <button id="btnFilter" (click)="filterData()" type="submit" value="Filter"
+                class="btn btn-default fa fa-search"></button>
+        </div>
+    </div>
+</app-list>
 <app-load-component [loading]="loading"></app-load-component>
-  

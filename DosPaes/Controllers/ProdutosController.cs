@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Dos_Paes.Models;
+using DosPaes.Models;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Cors;
 
-namespace Dos_Paes.Controllers
+namespace DosPaes.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

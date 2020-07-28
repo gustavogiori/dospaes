@@ -19,22 +19,23 @@
     <div class class="box-body">
       <ng-content select="[contentForm]"></ng-content>
       <div>
-      <ng-content select="[buttons]"></ng-content>
-      <button id="btnRedirect" (click)="redirectToList()" class="btn btn-danger btnStyle">Voltar</button>
+        <ng-content select="[buttons]"></ng-content>
+        <button id="btnRedirect" (click)="redirectToList()" class="btn btn-danger btnStyle">Voltar</button>
       </div>
-      <div *ngIf="submitted">
-       <br>
+     
+      <ng-template [ngIf]="submitted">
+        <br>
         <div class="alert alert-success" role="alert">
           <h4 class="alert-heading">Tudo certo!</h4>
           <p class="mb-0">{{msgSucesso}}</p>
         </div>
-      </div>
+      </ng-template>
       <br />
       <div *ngIf="hasError">
         <div class="alert alert-danger" role="alert">
-           {{msgError}}
+          {{msgError}}
         </div>
       </div>
-  </div>
+    </div>
   </div>
 </section>

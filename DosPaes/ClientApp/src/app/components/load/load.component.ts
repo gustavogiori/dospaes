@@ -8,6 +8,9 @@ import { ViewEncapsulation } from '@angular/core';
     styleUrls: ['./load.component.css']
 })
 export class LoadComponent{
+    onChange(){
+        alert('mudou load');
+    }
     @Input() loading=false;
     constructor() {
     }

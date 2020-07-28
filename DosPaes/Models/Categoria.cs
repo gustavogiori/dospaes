@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Dos_Paes.Models
+namespace DosPaes.Models
 {
     [Table("Categoria")]
     public class Categoria

@@ -1,25 +1,54 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { HomeBoard } from "src/app/models/homeBoard";
-import { HomeService } from "src/app/service/home.service";
+import { HomeBoard } from "../../models/homeBoard";
+import { HomeService } from "../../service/home.service";
 
 @Component({
   selector: "app-header-component",
   templateUrl: "./home.component.html",
+  styleUrls: ["./home.component.css"],
 })
 export class HomeComponent implements OnInit {
   home: HomeBoard;
-  loading=false;
+  loading = true;
+  isCustomFilterOn = false;
+  filter;
+  dataInicio;
+  dataFim;
   constructor(public router: Router, public homeService: HomeService) {}
   ngOnInit(): void {
-   this.loading=true;
-   this.homeService.getAll().subscribe( data => {
-      this.home=data;
+    this.loading = true;
+    this.homeService.getAll().subscribe((data) => {
+      this.home = data;
       console.log(data);
-      this.loading=false;
+      this.loading = false;
     });
   }
-
+  onChangeSelectedFilter(idNewFilter) {
+    if (idNewFilter === "P") {
+      this.isCustomFilterOn = true;
+    } else {
+      this.isCustomFilterOn = false;
+    }
+  }
+  filterData() {
+    this.loading = true;
+    alert(this.loading);
+    if (this.isCustomFilterOn) {
+      this.homeService
+        .getFilterCustom(this.filter, this.dataInicio, this.dataFim)
+        .subscribe((data) => {
+          this.home = data;
+          console.log(data);
+        });
+    } else {
+      this.homeService.getFilter(this.filter).subscribe((data) => {
+        this.home = data;
+        console.log(data);
+      });
+    }
+    this.loading = false;
+  }
   redirectToVendas() {
     this.router.navigateByUrl("dashboard/venda");
   }

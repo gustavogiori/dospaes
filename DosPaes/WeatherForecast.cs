@@ -1,6 +1,6 @@
 using System;
 
-namespace Dos_Paes
+namespace DosPaes
 {
     public class WeatherForecast
     {

@@ -25,6 +25,7 @@ export class ListCustoComponent extends ListBase {
   ngOnInit() {
     super.ngOnInit();
     this.tableHead = new Array<String>("Código", "Data","Local","Valor");
+    this.tableHeadCode = new Array<String>("Id", "Data","Local","Valor");
   }
 
 }

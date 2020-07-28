@@ -1,23 +1,23 @@
 import { Component, OnInit } from "@angular/core";
 import { AddBase } from "../../commun/AddBase";
 import { Router } from "@angular/router";
-import { VendaService } from "src/app/service/venda.service";
-import { ProdutoService } from "src/app/service/produto.service";
-import { Produto } from "src/app/models/produto";
-import { Venda } from "src/app/models/venda";
-
+import { ClienteService } from "../../../service/cliente.service";
+import { VendaService } from "../../../service/venda.service";
+import { ProdutoService } from "../../../service/produto.service";
+import {Venda} from "../../../models/venda";
 @Component({
   selector: "app-add-venda",
   templateUrl: "./add-venda.component.html",
   styleUrls: ["./add-venda.component.css"],
-  providers: [VendaService, ProdutoService],
+  providers: [VendaService, ProdutoService, ClienteService],
 })
 export class AddVendaComponent extends AddBase {
   venda: Venda;
   constructor(
     public vendaService: VendaService,
     public router: Router,
-    private produtoService: ProdutoService
+    private produtoService: ProdutoService,
+    private clienteService: ClienteService
   ) {
     super(router, vendaService);
     this.msgSucess = "Venda cadastrado com sucesso!";
@@ -40,6 +40,11 @@ export class AddVendaComponent extends AddBase {
       Qnt: 1,
       IdProduto: 0,
       ProdutoDescricao: "",
+      IdCliente:0,
+      ClienteNome:"",
+      Entregue:false,
+      ClienteEndereco:"",
+      ClienteTelefone:""
     };
   }
   onChangeQntSelecionado(novaQuantidade) {
@@ -47,9 +52,8 @@ export class AddVendaComponent extends AddBase {
       console.log("nova quant");
       console.log(novaQuantidade);
       this.sumValorVenda(this.venda.IdProduto, novaQuantidade);
-    }
-    else {
-      this.venda.Valor=0;
+    } else {
+      this.venda.Valor = 0;
     }
   }
 
@@ -72,12 +76,17 @@ export class AddVendaComponent extends AddBase {
     this.save(this.venda);
     this.clear();
   }
-  public produtos: Produto[];
+  public produtos: any[];
+  public clientes: any[];
   ngOnInit() {
     this.produtoService.getAll().subscribe((data) => {
       this.produtos = data;
     });
+    this.clienteService.getAll().subscribe((data) => {
+      this.clientes = data;
+    });
     console.log(this.produtos);
+    console.log(this.clientes);
     this.clear();
   }
 }

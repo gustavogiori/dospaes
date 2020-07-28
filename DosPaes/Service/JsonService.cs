@@ -8,6 +8,10 @@ namespace DosPaes.Service
 {
     public class JsonService<T>
     {
+        public static T GetObject(string json)
+        {
+            return JsonConvert.DeserializeObject<T>(json);
+        }
         public static string GetJson(T objeto)
         {
             Newtonsoft.Json.JsonSerializer serializer = new Newtonsoft.Json.JsonSerializer();

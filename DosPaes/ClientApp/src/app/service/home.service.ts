@@ -14,4 +14,23 @@ export class HomeService {
   getAll(): Observable<HomeBoard> {
     return this.http.get<HomeBoard>(this.baseUrl + "/GetAllSum");
   }
+  getFilter(tipo): Observable<HomeBoard> {
+    return this.http.get<HomeBoard>(this.baseUrl + "/GetAllSum?tipo=" + tipo);
+  }
+  getFilterCustom(tipo, dataInicio, dataFim): Observable<HomeBoard> {
+    let home = {
+      tipo: tipo,
+      dataInicio: dataInicio,
+      dataFim: dataFim,
+    };
+    return this.http.get<HomeBoard>(
+      this.baseUrl +
+        "/GetAllSum?dashboardFilter=" +
+        tipo +
+        "&dataInicio=" +
+        dataInicio +
+        "&dataFim=" +
+        dataFim
+    );
+  }
 }

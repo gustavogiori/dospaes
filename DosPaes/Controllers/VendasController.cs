@@ -5,9 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Dos_Paes.Models;
+using DosPaes.Models;
 using System.Text.Json;
 using Newtonsoft.Json;
+using DosPaes.Service;
 
 namespace DosPaes.Controllers
 {
@@ -18,15 +19,55 @@ namespace DosPaes.Controllers
         private readonly DataBaseContext _context = new DataBaseContext();
 
 
-        // GET: api/Vendas
-        [HttpGet]
-        public async Task<ActionResult<string>> GetVendas()
+        [HttpPut("SetEntrega/{id}")]
+        public async Task<IActionResult> PutEntrega(int id, Venda data)
+        {
+
+            if (id != data.Id)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(data).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!VendaExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        [HttpGet("BoardVendas")]
+        public async Task<ActionResult<string>> GetBoardVendas(string typeFilter = "", string dateFilter = "")
         {
             try
             {
-                var list = await _context.Vendas.Include(x => x.Produto).ToListAsync();
-                var json = Service.JsonService<List<Venda>>.GetJson(list);
-                return json;
+                return await new VendaService().GetJsonBoardVendasAsync(_context, typeFilter, dateFilter);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        // GET: api/Vendas
+        [HttpGet]
+        public async Task<ActionResult<string>> GetVendas(string typeFilter = "", string dateFilter = "")
+        {
+            try
+            {
+                return await new VendaService().GetJsonVendasFilterAsync(_context, typeFilter, dateFilter);
             }
             catch (Exception ex)
             {

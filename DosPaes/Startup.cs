@@ -1,4 +1,4 @@
-using Dos_Paes.Models;
+using DosPaes.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Features;
@@ -9,7 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Dos_Paes
+namespace DosPaes
 {
     public class Startup
     {
@@ -47,6 +47,10 @@ namespace Dos_Paes
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+            services.AddTransient<IDashboardService, DashboradService>();
+            services.AddTransient<IProducaoService, ProducaoService>();
+            services.AddTransient<IVendaService, VendaService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

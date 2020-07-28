@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { ServiceBaseService } from "./serviceBase.service";
 
-const baseUrl = "https://localhost:44379/api/Categorias";
+const baseUrl = "https://teste-253.apphb.com/api/Categorias";
 
 @Injectable({
   providedIn: "root",
