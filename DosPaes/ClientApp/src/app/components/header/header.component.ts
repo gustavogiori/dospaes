@@ -37,6 +37,10 @@ export class HeaderComponent{
     redirectToBoardVendas(){
         this.router.navigateByUrl('dashboard/boardVendas');
     }
+    redirectToProducao(){
+        this.router.navigateByUrl('dashboard/producao');
+    }
+    
     
     logMeOut(){
         this.router.navigateByUrl('login');

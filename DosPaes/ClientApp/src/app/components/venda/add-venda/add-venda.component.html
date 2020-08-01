@@ -9,15 +9,19 @@
         <option *ngFor="let produto of produtos" [ngValue]="produto.Id">
           {{ produto.Descricao }}</option>
       </select>
+      <input value="Novo Produto" data-toggle="modal" data-target="#modalProduto" class="btn btn-primary" type="button">
+      <input value="Atualizar Produtos" class="btn btn-default" (click)="atualizarProduto()" type="button">
     </div>
     <div class="form-group">
       <label for="IdCliente">Cliente</label>
-      <select class="selectpicker" data-show-subtext="true" data-live-search="true" [(ngModel)]="this.venda.IdCliente"
-        class="form-control" name="IdCliente" value="IdCliente" required>
+      <select data-show-subtext="true" data-live-search="true" [(ngModel)]="this.venda.IdCliente"
+        class="selectpicker form-control" name="IdCliente" value="IdCliente" required>
         <option value="">Selecione um cliente...</option>
         <option *ngFor="let cliente of clientes" [ngValue]="cliente.Id">
           {{ cliente.Nome }}</option>
-      </select> 
+      </select>
+      <input value="Novo Cliente" data-toggle="modal" data-target="#modalCliente" class="btn btn-primary" type="button">
+      <input value="Atualizar Clientes" class="btn btn-default" (click)="atualizarClientes()" type="button">
     </div>
     <div class="form-group">
       <label for="data">Data</label>
@@ -41,4 +45,14 @@
     </div>
   </div>
 </app-crud-head>
+
+<!-- Modal -->
+<div class="modal fade" id="modalCliente" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <app-add-modal-cliente></app-add-modal-cliente>
+</div>
+<div class="modal fade" id="modalProduto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <app-add-modal-produto></app-add-modal-produto>
+</div>
 <app-load-component [loading]="loading"></app-load-component>

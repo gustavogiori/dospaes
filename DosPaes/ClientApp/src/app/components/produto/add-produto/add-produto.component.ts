@@ -19,9 +19,9 @@ export class AddProdutoComponent extends AddBase {
     valor: "",
     categoria: 0,
   };
+  @Input() showButtonBack: boolean = true;
 
-
-  constructor(public produtoService: ProdutoService, public router: Router,private categoriaService: CategoriaService) {
+  constructor(public produtoService: ProdutoService, public router: Router,public categoriaService: CategoriaService) {
     super(router,produtoService);
     this.msgSucess="Produto cadastrado com sucesso!";
     this.newText="Novo";

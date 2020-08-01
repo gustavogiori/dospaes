@@ -1,5 +1,6 @@
 <app-crud-head [submitted]="submitted" [hasError]="hasError" [msgError]="msgError" [msgSucesso]="msgSucess"
-  [newText]="newText" [type]="type" [iconHead]="iconHead" [redirectToListUrl]="redirectToListUrl">
+  [newText]="newText" [type]="type" [iconHead]="iconHead" [redirectToListUrl]="redirectToListUrl"
+  [showButtonBack]="showButtonBack">
   <div contentForm>
     <div class="submit-form">
       <div class="form-group">
@@ -12,11 +13,13 @@
       </div>
       <div class="form-group">
         <label for="telefone1">Telefone 1</label>
-        <input type="text" class="form-control" id="telefone1" required [(ngModel)]="cliente.Telefone1" name="telefone1" />
+        <input type="text" class="form-control" id="telefone1" required [(ngModel)]="cliente.Telefone1"
+          name="telefone1" />
       </div>
       <div class="form-group">
         <label for="telefone2">Telefone 2</label>
-        <input type="text" class="form-control" id="telefone2" required [(ngModel)]="cliente.Telefone2" name="telefone2" />
+        <input type="text" class="form-control" id="telefone2" required [(ngModel)]="cliente.Telefone2"
+          name="telefone2" />
       </div>
       <button id="btnSalvar" (click)="saveCusto()" class="btn btn-success btnStyle">Savar</button>
     </div>

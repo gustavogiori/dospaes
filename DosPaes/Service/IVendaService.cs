@@ -8,6 +8,9 @@ namespace DosPaes.Service
 {
     public interface IVendaService : IService
     {
-        Task<string> GetJsonBoardVendasAsync(DataBaseContext context, string typeFilter = "", string dateFilter = "", bool filterQnt = true);
+        Task<string> GetJsonBoardVendasAsync(string typeFilter = "", string dateFilter = "");
+        Task<string> GetVendasDateJsonAsync(DateTime date);
+        Task<string> GetJsonVendasFilterAsync(string typeFilter = "", string dateFilter = "");
+        Task<List<Venda>> GetVendaDate(DateTime date);
     }
 }

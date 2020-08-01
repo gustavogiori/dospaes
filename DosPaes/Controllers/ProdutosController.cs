@@ -13,7 +13,6 @@ namespace DosPaes.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [EnableCors("CorsPolicy")]
     public class ProdutosController : ControllerBase
     {
         private readonly DataBaseContext _context = new DataBaseContext();
@@ -112,6 +111,7 @@ namespace DosPaes.Controllers
             }
             catch (Exception ex)
             {
+
                 return BadRequest(ex.InnerException.Message);
             }
         }

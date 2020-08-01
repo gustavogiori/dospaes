@@ -14,7 +14,6 @@ namespace DosPaes.Controllers
     [ApiController]
     public class DashboardController : ControllerBase
     {
-        private readonly DataBaseContext _context = new DataBaseContext();
         private Service.IDashboardService _dashboardService;
         public DashboardController(Service.IDashboardService dashboardService)
         {
@@ -27,7 +26,7 @@ namespace DosPaes.Controllers
             try
             {
                 var filter = new DataFilter() { tipo = tipo, dataInicio = UtilDateTime.ToDateTime(dataInicio), dataFim = UtilDateTime.ToDateTime(dataFim) };
-                return await _dashboardService.GetCustos(filter, _context);
+                return await _dashboardService.GetCustos(filter);
             }
             catch (Exception ex)
             {

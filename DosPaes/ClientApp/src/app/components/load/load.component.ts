@@ -9,7 +9,6 @@ import { ViewEncapsulation } from '@angular/core';
 })
 export class LoadComponent{
     onChange(){
-        alert('mudou load');
     }
     @Input() loading=false;
     constructor() {

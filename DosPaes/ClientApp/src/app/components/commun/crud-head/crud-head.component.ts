@@ -7,6 +7,7 @@ import { Router } from "@angular/router";
 })
 export class CrudHeadComponent implements OnInit {
   @Input() submitted: boolean;
+  @Input() showButtonBack: boolean = true;
   @Input() hasError: boolean;
   @Input() msgError: string;
   @Input() type: string;
@@ -16,7 +17,7 @@ export class CrudHeadComponent implements OnInit {
   @Input() iconHead: string;
 
   redirectToHome() {
-    this.router.navigateByUrl('dashboard/home');
+    this.router.navigateByUrl("dashboard/home");
   }
 
   redirectToList() {

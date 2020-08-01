@@ -1,3 +1,4 @@
+using DosPaes.Models;
 using DosPaes.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -50,6 +51,8 @@ namespace DosPaes
             services.AddTransient<IDashboardService, DashboradService>();
             services.AddTransient<IProducaoService, ProducaoService>();
             services.AddTransient<IVendaService, VendaService>();
+            services.AddTransient<DataBaseContext, DataBaseContext>();
+            services.AddTransient<IClienteService, ClienteService>();
 
         }
 

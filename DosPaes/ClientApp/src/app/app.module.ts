@@ -28,15 +28,18 @@ import { ListVendaComponent } from "./components/venda/list-venda/list-venda.com
 import { AddVendaComponent } from "./components/venda/add-venda/add-venda.component";
 import { EditVendaComponent } from "./components/venda/edit-venda/edit-venda.component";
 import { DeleteVendaComponent } from "./components/venda/delete-venda/delete-venda.component";
-import {ListClienteComponent} from "./components/cliente/list-cliente/list-cliente.component";
+import { ListClienteComponent } from "./components/cliente/list-cliente/list-cliente.component";
 import { AddClienteComponent } from "./components/cliente/add-cliente/add-cliente.component";
 import { EditClienteComponent } from "./components/cliente/edit-cliente/edit-cliente.component";
 import { DeleteClienteComponent } from "./components/cliente/delete-cliente/delete-cliente.component";
 import { FormClienteComponent } from "./components/cliente/form-cliente/form-cliente.component";
 import { BoardVendasComponent } from "./components/board-vendas/board-vendas.component";
+import { ProducaoComponent } from "./components/producao/producao.component";
+import { AddModalClienteComponent } from "./components/cliente/add-modal-cliente/add-modal-cliente.component";
+import { ModalComponent } from "./components/commun/modal/modal/modal.component";
+import { AddModalProdutoComponent } from "./components/produto/add-modal-produto/add-modal-produto.component";
 
-
-  import { from } from "rxjs";
+import { from } from "rxjs";
 const appRoutes: Routes = [
   {
     path: "dashboard",
@@ -64,6 +67,7 @@ const appRoutes: Routes = [
       { path: "editCliente/:id", component: EditClienteComponent },
       { path: "deleteCliente/:id", component: DeleteClienteComponent },
       { path: "boardVendas", component: BoardVendasComponent },
+      { path: "producao", component: ProducaoComponent },
     ],
   },
   { path: "login", component: LoginComponent },
@@ -100,7 +104,11 @@ const appRoutes: Routes = [
     EditClienteComponent,
     DeleteClienteComponent,
     FormClienteComponent,
-    BoardVendasComponent
+    BoardVendasComponent,
+    ProducaoComponent,
+    AddModalClienteComponent,
+    ModalComponent,
+    AddModalProdutoComponent
   ],
   imports: [
     FormsModule,

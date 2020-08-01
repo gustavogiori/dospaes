@@ -40,29 +40,29 @@ export class ListVendaComponent extends ListBase {
     this.redirectToCreate = "dashboard/addVenda";
     this.redirectToEdit = "dashboard/editVenda/";
     this.redirectToDelete = "dashboard/deleteVenda/";
-    this.columnKey = "id";
+    this.columnKey = "Id";
   }
 
   ngOnInit() {
     super.ngOnInit();
     this.typeFilter="H";
     this.tableHead = new Array<String>(
+      "Código",
       "Data",
       "Valor",
       "Qntd",
       "Produto",
       "Cliente",
-      "Endereço",
       "Tel",
       "Entregue"
     );
     this.tableHeadCode = new Array<String>(
+      "Id",
       "Data",
       "Valor",
       "Qnt",
       "ProdutoDescricao",
       "ClienteNome",
-      "ClienteEndereco",
       "ClienteTelefone",
       "Entregue"
     );

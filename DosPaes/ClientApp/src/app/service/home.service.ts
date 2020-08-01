@@ -7,7 +7,7 @@ import { HomeBoard } from "../models/homeBoard";
   providedIn: "root",
 })
 export class HomeService {
-  baseUrl: string = "https://localhost:44379/api/Dashboard";
+  baseUrl: string = "https://teste-253.apphb.com/api/Dashboard";
 
   constructor(protected http: HttpClient) {}
 
@@ -18,14 +18,9 @@ export class HomeService {
     return this.http.get<HomeBoard>(this.baseUrl + "/GetAllSum?tipo=" + tipo);
   }
   getFilterCustom(tipo, dataInicio, dataFim): Observable<HomeBoard> {
-    let home = {
-      tipo: tipo,
-      dataInicio: dataInicio,
-      dataFim: dataFim,
-    };
     return this.http.get<HomeBoard>(
       this.baseUrl +
-        "/GetAllSum?dashboardFilter=" +
+        "/GetAllSum?tipo=" +
         tipo +
         "&dataInicio=" +
         dataInicio +

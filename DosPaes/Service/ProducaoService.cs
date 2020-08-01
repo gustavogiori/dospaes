@@ -14,9 +14,19 @@ namespace DosPaes.Service
         {
             this._serviceProvider = serviceProvider;
         }
-        public async Task<string> GetProducao(DataBaseContext _context, string typeFilter = "", string dateFilter = "")
+        public async Task<string> GetProducao(string typeFilter = "", string dateFilterString = "")
         {
-            return await _serviceProvider.GetJsonBoardVendasAsync(_context, typeFilter, dateFilter, false);
+            DateTime dateFilter = Util.UtilDateTime.GetDateFilterVendas(typeFilter, dateFilterString);
+            List<Venda> vendas = await _serviceProvider.GetVendaDate(dateFilter);
+            List<Producao> paesProduzidos = new List<Producao>();
+
+            foreach (var venda in vendas.GroupBy(x => x.IdProduto).Select(g => g.First()))
+            {
+                paesProduzidos.Add(new Producao() { Produto = venda.Produto.Descricao, Quantidade = vendas.Where(x => x.Produto.Id == venda.Produto.Id).Sum(x => x.Qnt) });
+            }
+
+            return JsonService<List<Producao>>.GetJson(paesProduzidos);
         }
     }
 }
+

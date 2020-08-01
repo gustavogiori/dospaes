@@ -1,3 +1,13 @@
-<p>
-  delete-cliente works!
-</p>
+<app-crud-head [submitted]="submitted" [hasError]="hasError" [msgError]="msgError"
+[msgSucesso]="msgSucess" [newText]= "newText" [type]="type" [redirectToListUrl]="redirectToListUrl"
+[iconHead]="iconHead">
+  <div contentForm>
+
+   <h1>Deseja realmente deletar o cliente: {{record.Id}} - {{record.Nome}}?</h1>
+   <div>
+
+    <button type="button" id="btnConfirmar" [disabled]="disabled" (click)="deleteCliente()" class="btn btn-success btnStyle">Deletar</button>
+  </div>
+  </div>
+</app-crud-head>
+<app-load-component [loading]="loading"></app-load-component>

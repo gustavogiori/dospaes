@@ -45,6 +45,7 @@ export class ListComponent implements OnInit {
       (error) => {
         this.tableDatas = [];
         console.log(`Erro ao tentar Carregar eventos: ${error}`);
+        console.log(error);
       }
     );
   }

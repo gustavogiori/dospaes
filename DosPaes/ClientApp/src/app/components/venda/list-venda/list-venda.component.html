@@ -5,6 +5,7 @@
         <div class="col col-xs-3">
             <select (ngModelChange)="onChangeSelectedFilter($event)" class="form-control" [(ngModel)]="typeFilter"
                 id="typeFilter" name="typeFilter">
+                <option value="T" selected>Todas</option>
                 <option value="H" selected>Hoje</option>
                 <option value="A">Amanhã</option>
                 <option value="O">Ontem</option>

@@ -8,6 +8,6 @@ namespace DosPaes.Service
 {
     public interface IProducaoService : IService
     {
-        Task<string> GetProducao(DataBaseContext _context, string typeFilter = "", string dateFilter = "");
+        Task<string> GetProducao(string typeFilter = "", string dateFilter = "");
     }
 }

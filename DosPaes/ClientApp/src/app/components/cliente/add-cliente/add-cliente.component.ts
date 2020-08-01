@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Input } from "@angular/core";
 import { AddBase } from "../../commun/AddBase";
 import { Cliente } from "../../../models/cliente";
 import { Router } from "@angular/router";
@@ -12,6 +12,7 @@ import { ClienteService } from "../../../service/cliente.service";
 })
 export class AddClienteComponent extends AddBase {
   cliente: Cliente;
+  @Input() showButtonBack: boolean = true;
   constructor(
     protected router: Router,
     protected clienteService: ClienteService

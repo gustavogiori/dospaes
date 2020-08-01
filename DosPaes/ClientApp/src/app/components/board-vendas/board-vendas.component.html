@@ -25,10 +25,11 @@
                 <label class="label2" for="filter">Visualizar por:</label>
                 <select (ngModelChange)="onChangeSelectedFilter($event)" [(ngModel)]="typeFilter"
                     class="form-control filter" name="filter" required>
+                    <option value="T">Todos</option>
                     <option value="H" selected>Hoje</option>
                     <option value="A">Amanhã</option>
                     <option value="O">Ontem</option>
-                    <option value="P">Data especifico</option>
+                    <option value="P">Data especifica</option>
                 </select>
                 <label *ngIf="isCustomFilterOn" class="label2">Data:</label>
                 <input *ngIf="isCustomFilterOn" class="form-control filter" [(ngModel)]="dataFilter" type="date">

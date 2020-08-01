@@ -1,0 +1,65 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <h1>
+    Controle de Produção
+    <small>Control panel</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">Controle de Produção</li>
+  </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+  <div class="box box-info">
+    <div class="box-header ui-sortable-handle" style="cursor: move;">
+      <i class="fa fa-line-chart"></i>
+
+      <h3 class="box-title">Produção</h3>
+    </div>
+    <div class class="box-body">
+
+
+      <div class="form-inline">
+        <label class="label2" for="filter">Visualizar por:</label>
+        <select (ngModelChange)="onChangeSelectedFilter($event)" [(ngModel)]="typeFilter" class="form-control filter"
+          name="filter" required>
+          <option value="T" selected>Todos</option>
+          <option value="H" selected>Hoje</option>
+          <option value="A">Amanhã</option>
+          <option value="O">Ontem</option>
+          <option value="P">Data especifica</option>
+        </select>
+        <label *ngIf="isCustomFilterOn" class="label2">Data:</label>
+        <input *ngIf="isCustomFilterOn" class="form-control filter" [(ngModel)]="dataFilter" type="date">
+        <button id="btnSalvar" (click)="filterData()" class="btn btn-default bntFiltrar">Filtrar</button>
+      </div>
+      <br />
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Pão</th>
+            <th scope="col">Quantidade</th>
+
+          </tr>
+        </thead>
+     
+        <tbody *ngFor="let producao of producoes;let i=index">
+          <tr>
+            <th scope="row">{{i+1}}</th>
+            <td>{{producao.Produto}}</td>
+            <td>{{producao.Quantidade}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div >
+        <h4 *ngIf="!hasData" class="naoEncontrado">Não há pães para hoje</h4>
+      </div>
+    </div>
+  </div>
+
+
+</section>
+<app-load-component [loading]="loading"></app-load-component>

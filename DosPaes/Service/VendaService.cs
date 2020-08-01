@@ -11,29 +11,31 @@ namespace DosPaes.Service
     {
         DataBaseContext _context;
 
-
-        private async Task<string> GetVendasTodayAsync()
+        public VendaService(DataBaseContext context)
         {
-            return await GetVendasDateAsync(DateTime.Now.Date);
+            this._context = context;
         }
-        private async Task<string> GetVendasYesterdayAsync()
+        public async Task<string> GetVendasDateJsonAsync(DateTime date)
         {
-            return await GetVendasDateAsync(DateTime.Now.Date.AddDays(-1));
-        }
-        private async Task<string> GetVendasTomorrowAsync()
-        {
-            return await GetVendasDateAsync(DateTime.Now.Date.AddDays(1));
-        }
-        private async Task<string> GetVendasDateAsync(DateTime date)
-        {
-            var dateFilter = new DateTime(date.Year, date.Month, date.Day);
-            var vendasDate = await _context.Vendas.Include(x => x.Produto).Include(x => x.Cliente).Where(x => x.Data == dateFilter).ToListAsync();
+            List<Venda> vendasDate = await GetVendaDate(date);
 
             return JsonService<List<Venda>>.GetJson(vendasDate);
         }
-        public async Task<string> GetJsonBoardVendasAsync(DataBaseContext context, string typeFilter = "", string dateFilter = "", bool filterQnt = true)
+
+        public async Task<List<Venda>> GetVendaDate(DateTime date)
         {
-            var list = JsonService<List<Venda>>.GetObject(await GetJsonVendasFilterAsync(context, typeFilter, dateFilter));
+            List<Venda> vendasDate;
+            if (date != DateTime.MinValue)
+                vendasDate = await _context.Vendas.Include(x => x.Produto).Include(x => x.Cliente).Where(x => x.Data == date).ToListAsync();
+            else
+                vendasDate = await _context.Vendas.Include(x => x.Produto).Include(x => x.Cliente).Where(x => x.Data != date).ToListAsync();
+
+            return vendasDate;
+        }
+
+        public async Task<string> GetJsonBoardVendasAsync(string typeFilter = "", string dateFilter = "")
+        {
+            var list = JsonService<List<Venda>>.GetObject(await GetJsonVendasFilterAsync(typeFilter, dateFilter));
             List<BoardVendas> board = new List<BoardVendas>();
             int id = 0;
             foreach (var item in list.OrderBy(x => x.Produto.Descricao))
@@ -44,12 +46,8 @@ namespace DosPaes.Service
                 {
                     BoardVendas itemBoard = new BoardVendas();
                     itemBoard.Id = id;
-                    itemBoard.Produto = item.Produto.Descricao;
-                    if (filterQnt)
-                        itemBoard.Quantidade = list.Where(x => x.Produto.Id == item.Produto.Id && x.Entregue == false).Sum(x => x.Qnt);
-                    else
-                        itemBoard.Quantidade = list.Where(x => x.Produto.Id == item.Produto.Id).Sum(x => x.Qnt);
-
+                    itemBoard.Produto = item.ProdutoDescricao;
+                    itemBoard.Quantidade = list.Where(x => x.Produto.Id == item.Produto.Id && x.Entregue == false).Sum(x => x.Qnt);
                     itemBoard.Vendas = new List<Venda>();
                     itemBoard.Vendas.AddRange(list.Where(x => x.Produto.Id == item.Produto.Id));
                     board.Add(itemBoard);
@@ -60,39 +58,13 @@ namespace DosPaes.Service
             var json = JsonService<List<BoardVendas>>.GetJson(board);
             return json;
         }
-        public async Task<string> GetJsonVendasFilterAsync(DataBaseContext context, string typeFilter = "", string dateFilter = "")
+        public async Task<string> GetJsonVendasFilterAsync(string typeFilter = "", string dateFilter = "")
         {
-            this._context = context;
             string json = "";
 
-            switch (typeFilter)
-            {
-                case "H":
-                    {
-                        json = await GetVendasTodayAsync();
-                    }
-                    break;
-                case "A":
-                    {
-                        json = await GetVendasTomorrowAsync();
-                    }
-                    break;
-                case "O":
-                    {
-                        json = await GetVendasYesterdayAsync();
-                    }
-                    break;
-                case "P":
-                    {
-                        json = await GetVendasDateAsync(Convert.ToDateTime(dateFilter));
-                    }
-                    break;
-                default:
-                    {
-                        json = await GetVendasTodayAsync();
-                    }
-                    break;
-            }
+            DateTime dataFiltro = Util.UtilDateTime.GetDateFilterVendas(typeFilter, dateFilter);
+            json = await GetVendasDateJsonAsync(dataFiltro);
+
             return json;
         }
     }

@@ -9,6 +9,6 @@ namespace DosPaes.Service
 {
     public interface IDashboardService : IService
     {
-        Task<string> GetCustos(DataFilter dashboardFilter, DataBaseContext _context);
+        Task<string> GetCustos(DataFilter dashboardFilter);
     }
 }

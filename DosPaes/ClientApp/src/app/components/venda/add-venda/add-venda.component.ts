@@ -4,7 +4,7 @@ import { Router } from "@angular/router";
 import { ClienteService } from "../../../service/cliente.service";
 import { VendaService } from "../../../service/venda.service";
 import { ProdutoService } from "../../../service/produto.service";
-import {Venda} from "../../../models/venda";
+import { Venda } from "../../../models/venda";
 @Component({
   selector: "app-add-venda",
   templateUrl: "./add-venda.component.html",
@@ -40,17 +40,15 @@ export class AddVendaComponent extends AddBase {
       Qnt: 1,
       IdProduto: 0,
       ProdutoDescricao: "",
-      IdCliente:0,
-      ClienteNome:"",
-      Entregue:false,
-      ClienteEndereco:"",
-      ClienteTelefone:""
+      IdCliente: 0,
+      ClienteNome: "",
+      Entregue: false,
+      ClienteEndereco: "",
+      ClienteTelefone: "",
     };
   }
   onChangeQntSelecionado(novaQuantidade) {
     if (novaQuantidade > 0) {
-      console.log("nova quant");
-      console.log(novaQuantidade);
       this.sumValorVenda(this.venda.IdProduto, novaQuantidade);
     } else {
       this.venda.Valor = 0;
@@ -65,6 +63,16 @@ export class AddVendaComponent extends AddBase {
       this.venda.Valor = 0;
     }
   }
+  atualizarProduto() {
+    this.produtoService.getAll().subscribe((data) => {
+      this.produtos = data;
+    });
+  }
+  atualizarClientes() {
+    this.clienteService.getAll().subscribe((data) => {
+      this.clientes = data;
+    });
+  }
   onChangeProdutoSelecionado(idNewProduto) {
     if (this.venda.Qnt === 0) {
       this.venda.Valor = 0;
@@ -72,6 +80,10 @@ export class AddVendaComponent extends AddBase {
       this.sumValorVenda(idNewProduto, this.venda.Qnt);
     }
   }
+  novoCliente() {
+
+  }
+
   saveVenda() {
     this.save(this.venda);
     this.clear();
@@ -79,14 +91,8 @@ export class AddVendaComponent extends AddBase {
   public produtos: any[];
   public clientes: any[];
   ngOnInit() {
-    this.produtoService.getAll().subscribe((data) => {
-      this.produtos = data;
-    });
-    this.clienteService.getAll().subscribe((data) => {
-      this.clientes = data;
-    });
-    console.log(this.produtos);
-    console.log(this.clientes);
+    this.atualizarProduto();
+    this.atualizarClientes();
     this.clear();
   }
 }

@@ -40,7 +40,8 @@ export class DeleteBase implements OnInit {
           this.hasError=true;
           this.disabled=false;
           this.loading=false;
-          this.msgError="Erro ao deletar: "+error;
+          this.msgError="Erro ao deletar: "+error.error;
+          ;
           console.log(error);
         }
       );

@@ -17,6 +17,7 @@ export class EditBase implements OnInit {
 
   save(id: number, data) {
     this.loading = true;
+    console.log(data);
     this.service.update(id, data).subscribe(
       (response) => {
         console.log(response);
@@ -24,6 +25,7 @@ export class EditBase implements OnInit {
         this.loading = false;
       },
       (error) => {
+        console.log(error);
         this.submitted = false;
         this.hasError = true;
         this.msgError = error;

@@ -27,6 +27,7 @@ constructor(public router: Router, protected produtoService: ProdutoService) {
 
     ngOnInit() {  
       super.ngOnInit();  
-      this.tableHead = new Array<String>('Código', 'Descrição', 'Preço','Categoria');   
+      this.tableHead = new Array<String>('Código', 'Descrição', 'Preço','Categoria'); 
+      this.tableHeadCode = new Array<String>('Id', 'Descricao', 'Valor','CategoriaDescricao');   
     }
   }

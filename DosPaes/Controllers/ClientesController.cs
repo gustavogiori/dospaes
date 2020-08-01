@@ -14,6 +14,11 @@ namespace DosPaes.Controllers
     [ApiController]
     public class ClientesController : ControllerBase
     {
+        IClienteService _clienteService;
+        public ClientesController(IClienteService clienteService)
+        {
+            _clienteService = clienteService;
+        }
         private readonly DataBaseContext _context = new DataBaseContext();
 
         // GET: api/Clientes
@@ -29,16 +34,17 @@ namespace DosPaes.Controllers
 
         // GET: api/Clientes/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Cliente>> GetCliente(int id)
+        public async Task<ActionResult<string>> GetCliente(int id)
         {
-            var cliente = await _context.Cliente.FindAsync(id);
-
-            if (cliente == null)
+            try
             {
-                return NotFound();
-            }
 
-            return cliente;
+                return await _clienteService.GetEntityJsonById(id);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // PUT: api/Clientes/5
@@ -96,16 +102,15 @@ namespace DosPaes.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Cliente>> DeleteCliente(int id)
         {
-            var cliente = await _context.Cliente.FindAsync(id);
-            if (cliente == null)
+            try
             {
-                return NotFound();
+
+                return await _clienteService.DeleteEntity(id);
             }
-
-            _context.Cliente.Remove(cliente);
-            await _context.SaveChangesAsync();
-
-            return cliente;
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         private bool ClienteExists(int id)

@@ -15,17 +15,16 @@ namespace DosPaes.Controllers
     public class ProducaoController : ControllerBase
     {
         IProducaoService _producaoService;
-        private readonly DataBaseContext _context = new DataBaseContext();
         public ProducaoController(IProducaoService producaoService)
         {
             _producaoService = producaoService;
         }
         [HttpGet("GetProducao")]
-        public async Task<ActionResult<string>> GetCustosAsync(string typeFilter = "", string dateFilter = "")
+        public async Task<ActionResult<string>> GetProducaoAsync(string typeFilter = "", string dateFilter = "")
         {
             try
             {
-                return await _producaoService.GetProducao(_context, typeFilter, dateFilter);
+                return await _producaoService.GetProducao(typeFilter, dateFilter);
             }
             catch (Exception ex)
             {

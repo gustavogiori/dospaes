@@ -20,7 +20,7 @@
       <ng-content select="[contentForm]"></ng-content>
       <div>
         <ng-content select="[buttons]"></ng-content>
-        <button id="btnRedirect" (click)="redirectToList()" class="btn btn-danger btnStyle">Voltar</button>
+        <button *ngIf="showButtonBack" id="btnRedirect" (click)="redirectToList()" class="btn btn-danger btnStyle">Voltar</button>
       </div>
      
       <ng-template [ngIf]="submitted">

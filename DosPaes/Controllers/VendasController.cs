@@ -17,7 +17,11 @@ namespace DosPaes.Controllers
     public class VendasController : ControllerBase
     {
         private readonly DataBaseContext _context = new DataBaseContext();
-
+        IVendaService _vendaService;
+        public VendasController(IVendaService vendaService)
+        {
+            this._vendaService = vendaService;
+        }
 
         [HttpPut("SetEntrega/{id}")]
         public async Task<IActionResult> PutEntrega(int id, Venda data)
@@ -54,7 +58,7 @@ namespace DosPaes.Controllers
         {
             try
             {
-                return await new VendaService().GetJsonBoardVendasAsync(_context, typeFilter, dateFilter);
+                return await _vendaService.GetJsonBoardVendasAsync(typeFilter, dateFilter);
             }
             catch (Exception ex)
             {
@@ -67,7 +71,7 @@ namespace DosPaes.Controllers
         {
             try
             {
-                return await new VendaService().GetJsonVendasFilterAsync(_context, typeFilter, dateFilter);
+                return await _vendaService.GetJsonVendasFilterAsync(typeFilter, dateFilter);
             }
             catch (Exception ex)
             {
@@ -79,7 +83,7 @@ namespace DosPaes.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<string>> GetVenda(int id)
         {
-            var venda = await _context.Vendas.FindAsync(id);
+            var venda = _context.Vendas.Include(x => x.Cliente).Include(x => x.Produto).FirstOrDefault(x => x.Id == id);
 
             if (venda == null)
             {

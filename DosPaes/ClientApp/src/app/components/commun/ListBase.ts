@@ -29,6 +29,7 @@ export class ListBase implements OnInit {
       (error) => {
         this.records = [];
         console.log(`Erro ao tentar Carregar eventos: ${error}`);
+        console.log(error);
         this.loading = false;
       }
     );

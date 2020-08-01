@@ -1,29 +1,30 @@
-<app-crud-head [submitted]="submitted" [hasError]="hasError" [msgError]="msgError"
-[msgSucesso]="msgSucess" [newText]= "newText" [type]="type" [iconHead]="iconHead" [redirectToListUrl]="redirectToListUrl">
+<app-crud-head [submitted]="submitted" [hasError]="hasError" [msgError]="msgError" [msgSucesso]="msgSucess"
+  [newText]="newText" [type]="type" [iconHead]="iconHead" [redirectToListUrl]="redirectToListUrl"
+  [showButtonBack]="showButtonBack">
   <div contentForm>
-<div class="submit-form">
-    <div class="form-group">
-      <label for="descricao">Descrição</label>
-      <input type="text" class="form-control" id="descricao" required [(ngModel)]="produto.descricao"
-        name="descricao" />
-    </div>
-    
-    <div class="form-group">
-      <label for="valor">Preço</label>
-      <input class="form-control" id="valor" required [(ngModel)]="produto.valor" currencyMask
-        [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" name="valor" />
-    </div>
-    <div class="form-group">
-      <label for="categoria">Categoria</label>
-      <select [(ngModel)]="this.produto.categoria" class="form-control" name="categoria" value="categoria" required>
-        <option value="">Selecione uma categoria...</option>
-        <option *ngFor="let cat of categorias" [ngValue]="cat.id">
-          {{ cat.descricao }}</option>
-      </select>
-    </div>
+    <div class="submit-form">
+      <div class="form-group">
+        <label for="descricao">Descrição</label>
+        <input type="text" class="form-control" id="descricao" required [(ngModel)]="produto.descricao"
+          name="descricao" />
+      </div>
 
-    <button id="btnSalvar" (click)="saveProduto()" class="btn btn-success btnStyle">Savar</button>
+      <div class="form-group">
+        <label for="valor">Preço</label>
+        <input class="form-control" id="valor" required [(ngModel)]="produto.valor" currencyMask
+          [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" name="valor" />
+      </div>
+      <div class="form-group">
+        <label for="categoria">Categoria</label>
+        <select [(ngModel)]="this.produto.categoria" class="form-control" name="categoria" value="categoria" required>
+          <option value="">Selecione uma categoria...</option>
+          <option *ngFor="let cat of categorias" [ngValue]="cat.id">
+            {{ cat.descricao }}</option>
+        </select>
+      </div>
+
+      <button id="btnSalvar" (click)="saveProduto()" class="btn btn-success btnStyle">Savar</button>
+    </div>
   </div>
-</div>
 </app-crud-head>
 <app-load-component [loading]="loading"></app-load-component>

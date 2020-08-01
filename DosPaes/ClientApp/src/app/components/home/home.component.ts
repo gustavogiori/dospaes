@@ -18,6 +18,7 @@ export class HomeComponent implements OnInit {
   constructor(public router: Router, public homeService: HomeService) {}
   ngOnInit(): void {
     this.loading = true;
+    this.filter = "S";
     this.homeService.getAll().subscribe((data) => {
       this.home = data;
       console.log(data);
@@ -33,7 +34,6 @@ export class HomeComponent implements OnInit {
   }
   filterData() {
     this.loading = true;
-    alert(this.loading);
     if (this.isCustomFilterOn) {
       this.homeService
         .getFilterCustom(this.filter, this.dataInicio, this.dataFim)
