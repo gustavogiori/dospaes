@@ -1,3 +1,49 @@
-<p>
-  edit-venda works!
-</p>
+<app-crud-head [submitted]="submitted" [hasError]="hasError" [msgError]="msgError" [msgSucesso]="msgSucess"
+  [newText]="newText" [type]="type" [iconHead]="iconHead" [redirectToListUrl]="redirectToListUrl">
+  <div contentForm>
+    <div class="submit-form">
+
+      <div class="form-group">
+        <label for="IdProduto">Produto</label>
+        <select (ngModelChange)="onChangeProdutoSelecionado($event)" [(ngModel)]="this.venda.IdProduto"
+          class="form-control" name="IdProduto" value="IdProduto" required>
+          <option value="">Selecione um produto...</option>
+          <option *ngFor="let produto of produtos" [ngValue]="produto.Id">
+            {{ produto.Descricao }}</option>
+        </select>
+
+      </div>
+      <div class="form-group">
+        <label for="IdCliente">Cliente</label>
+        <select data-show-subtext="true" data-live-search="true" [(ngModel)]="this.venda.IdCliente"
+          class="selectpicker form-control" name="IdCliente" value="IdCliente" required>
+          <option value="">Selecione um cliente...</option>
+          <option *ngFor="let cliente of clientes" [ngValue]="cliente.Id">
+            {{ cliente.Nome }}</option>
+        </select>
+
+      </div>
+      <div class="form-group">
+        <label for="data">Data</label>
+        <input type="date" class="form-control" id="data" required [(ngModel)]="venda.Data" name="data" />
+      </div>
+      <div class="submit-form">
+        <div class="form-group">
+          <label for="qnt">Quantidade</label>
+          <input (ngModelChange)="onChangeQntSelecionado($event)" type="number" class="form-control" id="qnt" required
+            [(ngModel)]="venda.Qnt" name="qnt" />
+        </div>
+
+
+        <div class="form-group">
+          <label for="valor">Total</label>
+          <input class="form-control" id="valor" required [(ngModel)]="venda.Valor" currencyMask
+            [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" name="valor" />
+        </div>
+      </div>
+
+      <button id="btnSalvar" (click)="saveVenda()" class="btn btn-success btnStyle">Savar</button>
+    </div>
+  </div>
+</app-crud-head>
+<app-load-component [loading]="loading"></app-load-component>

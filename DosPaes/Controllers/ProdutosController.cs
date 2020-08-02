@@ -33,7 +33,7 @@ namespace DosPaes.Controllers
 
         // GET: api/Produtos/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Produto>> GetProduto(int id)
+        public async Task<ActionResult<string>> GetProduto(int id)
         {
             var produto = await _context.Produtos.FindAsync(id);
 
@@ -42,11 +42,11 @@ namespace DosPaes.Controllers
                 return NotFound();
             }
 
-            return produto;
+            return Service.JsonService<Produto>.GetJson(produto);
         }
         // GET: api/Produtos/5
         [HttpGet("{campo}/{valor}")]
-        public async Task<ActionResult<string>> GetProduto(string campo="", string valor="")
+        public async Task<ActionResult<string>> GetProduto(string campo = "", string valor = "")
         {
             // var produto = await _context.Produtos.ToListAsync();
             IQueryable<Produto> produto = _context.Produtos.Include(x => x.Categoria).AsQueryable();

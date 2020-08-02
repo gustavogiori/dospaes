@@ -9,7 +9,7 @@ let id = 0;
   selector: "app-edit-produto",
   templateUrl: "./edit-produto.component.html",
   styleUrls: ["./edit-produto.component.css"],
-  providers:[ProdutoService]
+  providers: [ProdutoService],
 })
 export class EditProdutoComponent extends EditBase {
   public produto: Produto;
@@ -22,15 +22,17 @@ export class EditProdutoComponent extends EditBase {
   }
 
   ngOnInit() {
+    this.produto = new Produto();
     this.newText = "Editar";
     this.redirectToListUrl = "dashboard/produto";
     this.msgSucess = "Produto editado com sucesso!";
     this.type = "Produto";
     this.route.params.subscribe((params: Params) => {
       id = params["id"];
-
+      console.log(id);
       this.produtoService.get(id).subscribe((data) => {
         this.produto = data;
+        console.log(data);
       });
     });
   }
@@ -42,6 +44,6 @@ export class EditProdutoComponent extends EditBase {
       Valor: this.produto.Valor,
       IdCategoria: this.produto.IdCategoria,
     };
-   this.save(id,data);
+    this.save(id, data);
   }
 }
