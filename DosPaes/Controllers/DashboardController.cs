@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DosPaes.Models;
 using DosPaes.Util;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ namespace DosPaes.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class DashboardController : ControllerBase
     {
         private Service.IDashboardService _dashboardService;

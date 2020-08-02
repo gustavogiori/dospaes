@@ -7,7 +7,7 @@ import { HomeBoard } from "../models/homeBoard";
   providedIn: "root",
 })
 export class HomeService {
-  baseUrl: string = "https://teste-253.apphb.com/api/Dashboard";
+  baseUrl: string = "https://localhost:44379/api/Dashboard";
 
   constructor(protected http: HttpClient) {}
 

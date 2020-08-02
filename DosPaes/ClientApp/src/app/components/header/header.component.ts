@@ -40,7 +40,9 @@ export class HeaderComponent{
     redirectToProducao(){
         this.router.navigateByUrl('dashboard/producao');
     }
-    
+    redirectToUsuario(){
+        this.router.navigateByUrl('dashboard/usuario');
+    }
     
     logMeOut(){
         this.router.navigateByUrl('login');

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using DosPaes.Models;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DosPaes.Controllers
 {

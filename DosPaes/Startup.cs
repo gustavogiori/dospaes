@@ -1,5 +1,7 @@
+using DosPaes.Helpers;
 using DosPaes.Models;
 using DosPaes.Service;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Features;
@@ -48,11 +50,16 @@ namespace DosPaes
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+            // configure basic authentication 
+            services.AddAuthentication("BasicAuthentication")
+                .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
+
             services.AddTransient<IDashboardService, DashboradService>();
             services.AddTransient<IProducaoService, ProducaoService>();
             services.AddTransient<IVendaService, VendaService>();
             services.AddTransient<DataBaseContext, DataBaseContext>();
             services.AddTransient<IClienteService, ClienteService>();
+            services.AddTransient<IUsuarioService, UsuarioService>();
 
         }
 
@@ -78,7 +85,8 @@ namespace DosPaes
             }
             app.UseCors("CorsPolicy");
             app.UseRouting();
-
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

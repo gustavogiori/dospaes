@@ -6,17 +6,20 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DosPaes.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DosPaes.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CategoriasController : ControllerBase
     {
         private readonly DataBaseContext _context = new DataBaseContext();
 
         // GET: api/Categorias
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<Categoria>>> GetCategorias()
         {
             return await _context.Categorias.ToListAsync();

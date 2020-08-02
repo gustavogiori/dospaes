@@ -16,4 +16,7 @@ export class LoginComponent  {
     login() {
         this.router.navigateByUrl('dashboard/home');
     }
+    redirectToCreateUser() {
+        this.router.navigateByUrl('dashboard/addUsuario');
+    }
 }

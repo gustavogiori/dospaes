@@ -38,8 +38,10 @@ import { ProducaoComponent } from "./components/producao/producao.component";
 import { AddModalClienteComponent } from "./components/cliente/add-modal-cliente/add-modal-cliente.component";
 import { ModalComponent } from "./components/commun/modal/modal/modal.component";
 import { AddModalProdutoComponent } from "./components/produto/add-modal-produto/add-modal-produto.component";
-
+import { ListUsuarioComponent } from "./components/usuario/list-usuario/list-usuario.component";
+import { AddUsuarioComponent } from "./components/usuario/add-usuario/add-usuario.component";
 import { from } from "rxjs";
+
 const appRoutes: Routes = [
   {
     path: "dashboard",
@@ -68,6 +70,8 @@ const appRoutes: Routes = [
       { path: "deleteCliente/:id", component: DeleteClienteComponent },
       { path: "boardVendas", component: BoardVendasComponent },
       { path: "producao", component: ProducaoComponent },
+      { path: "usuario", component: ListUsuarioComponent },
+      { path: "addUsuario", component: AddUsuarioComponent },
     ],
   },
   { path: "login", component: LoginComponent },
@@ -108,7 +112,9 @@ const appRoutes: Routes = [
     ProducaoComponent,
     AddModalClienteComponent,
     ModalComponent,
-    AddModalProdutoComponent
+    AddModalProdutoComponent,
+    ListUsuarioComponent,
+    AddUsuarioComponent,
   ],
   imports: [
     FormsModule,

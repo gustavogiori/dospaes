@@ -27,6 +27,9 @@ export class ListBase implements OnInit {
         this.loading = false;
       },
       (error) => {
+        if(error.status===401){
+          this.router.navigateByUrl("dashboard/login");
+        }
         this.records = [];
         console.log(`Erro ao tentar Carregar eventos: ${error}`);
         console.log(error);
