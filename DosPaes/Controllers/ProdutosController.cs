@@ -14,6 +14,7 @@ namespace DosPaes.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Policy = Policies.User)]
     public class ProdutosController : ControllerBase
     {
         private readonly DataBaseContext _context = new DataBaseContext();

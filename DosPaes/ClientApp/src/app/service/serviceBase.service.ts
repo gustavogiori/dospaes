@@ -1,9 +1,10 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 
 export class ServiceBaseService {
   getAll(): Observable<any[]> {
-    return this.http.get<any[]>(this.baseUrl);
+    return this.http.get<any[]>(this.baseUrl).pipe(map(result => result));
   }
   filter(campo,valor):Observable<any> { 
     if(valor){
@@ -14,7 +15,7 @@ export class ServiceBaseService {
     }
   }
   get(id):Observable<any> { 
-    return this.http.get<any>(`${this.baseUrl}/${id}`);
+    return this.http.get<any>(`${this.baseUrl}/${id}`).pipe(map(result => result));
   }
   create(data) {
     const headers = { "content-type": "application/json" };

@@ -17,6 +17,10 @@ namespace DosPaes.Models
         public bool MantemLogado { get; set; }
         [NotMapped]
         public string ChaveCadastro { get; set; }
+        [NotMapped]
+        public string Role { get; set; }
+        [NotMapped]
+        public bool isLoggedIn { get; set; }
 
     }
 }

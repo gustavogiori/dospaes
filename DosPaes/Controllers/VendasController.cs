@@ -9,11 +9,13 @@ using DosPaes.Models;
 using System.Text.Json;
 using Newtonsoft.Json;
 using DosPaes.Service;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DosPaes.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Policy = Policies.User)]
     public class VendasController : ControllerBase
     {
         private readonly DataBaseContext _context = new DataBaseContext();

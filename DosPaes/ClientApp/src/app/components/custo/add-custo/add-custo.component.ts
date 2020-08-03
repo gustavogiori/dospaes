@@ -14,7 +14,6 @@ export class AddCustoComponent extends AddBase {
   custo: Custo;
   constructor(protected router: Router, protected custoService: CustoService) {
     super(router, custoService);
-    console.log("alert");
     console.log(custoService);
     this.msgSucess = "Despesa cadastrada com sucesso!";
     this.newText = "Nova";

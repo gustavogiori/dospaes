@@ -17,13 +17,17 @@ export class HomeComponent implements OnInit {
   dataFim;
   constructor(public router: Router, public homeService: HomeService) {}
   ngOnInit(): void {
+    this.home= new HomeBoard();
     this.loading = true;
     this.filter = "S";
     this.homeService.getAll().subscribe((data) => {
       this.home = data;
       console.log(data);
       this.loading = false;
-    });
+    }, err => {
+      this.loading = false;
+      //...
+  });
   }
   onChangeSelectedFilter(idNewFilter) {
     if (idNewFilter === "P") {

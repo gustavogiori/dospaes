@@ -1,7 +1,7 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { NgxCurrencyModule } from "ngx-currency";
 
 import { AppComponent } from "./app.component";
@@ -41,40 +41,141 @@ import { AddModalProdutoComponent } from "./components/produto/add-modal-produto
 import { ListUsuarioComponent } from "./components/usuario/list-usuario/list-usuario.component";
 import { AddUsuarioComponent } from "./components/usuario/add-usuario/add-usuario.component";
 import { from } from "rxjs";
+import { AuthGuard } from "./components/guards/auth.guard";
+import { HttpInterceptorService } from "./service/http-interceptor.service";
+import { ErrorInterceptorService } from "./service/error-interceptor.service";
+import { UserMenuComponent } from "./components/user-menu/user-menu.component";
 
 const appRoutes: Routes = [
   {
     path: "dashboard",
     component: HeaderComponent,
     children: [
-      { path: "home", component: HomeComponent },
-      { path: "produto", component: ListProdutoComponent },
-      { path: "addProduto", component: AddProdutoComponent },
-      { path: "editProduto/:id", component: EditProdutoComponent },
-      { path: "deleteProduto/:id", component: DeleteProdutoComponent },
-      { path: "addCategoria", component: AddCategoriaComponent },
-      { path: "editCategoria/:id", component: EditCategoriaComponent },
-      { path: "deleteCategoria/:id", component: DeleteCategoriaComponent },
-      { path: "categoria", component: ListCategoriaComponent },
-      { path: "custo", component: ListCustoComponent },
-      { path: "addCusto", component: AddCustoComponent },
-      { path: "editCusto/:id", component: EditCustoComponent },
-      { path: "deleteCusto/:id", component: DeleteCustoComponent },
-      { path: "venda", component: ListVendaComponent },
-      { path: "addVenda", component: AddVendaComponent },
-      { path: "editVenda/:id", component: EditVendaComponent },
-      { path: "deleteVenda/:id", component: DeleteVendaComponent },
-      { path: "cliente", component: ListClienteComponent },
-      { path: "addCliente", component: AddClienteComponent },
-      { path: "editCliente/:id", component: EditClienteComponent },
-      { path: "deleteCliente/:id", component: DeleteClienteComponent },
-      { path: "boardVendas", component: BoardVendasComponent },
-      { path: "producao", component: ProducaoComponent },
-      { path: "usuario", component: ListUsuarioComponent },
-      { path: "addUsuario", component: AddUsuarioComponent },
+      { path: "home", component: HomeComponent, canActivate: [AuthGuard] },
+      {
+        path: "produto",
+        component: ListProdutoComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: "addProduto",
+        component: AddProdutoComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: "editProduto/:id",
+        component: EditProdutoComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: "deleteProduto/:id",
+        component: DeleteProdutoComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: "addCategoria",
+        component: AddCategoriaComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: "editCategoria/:id",
+        component: EditCategoriaComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: "deleteCategoria/:id",
+        component: DeleteCategoriaComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: "categoria",
+        component: ListCategoriaComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: "custo",
+        component: ListCustoComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: "addCusto",
+        component: AddCustoComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: "editCusto/:id",
+        component: EditCustoComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: "deleteCusto/:id",
+        component: DeleteCustoComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: "venda",
+        component: ListVendaComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: "addVenda",
+        component: AddVendaComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: "editVenda/:id",
+        component: EditVendaComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: "deleteVenda/:id",
+        component: DeleteVendaComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: "cliente",
+        component: ListClienteComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: "addCliente",
+        component: AddClienteComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: "editCliente/:id",
+        component: EditClienteComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: "deleteCliente/:id",
+        component: DeleteClienteComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: "boardVendas",
+        component: BoardVendasComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: "producao",
+        component: ProducaoComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: "usuario",
+        component: ListUsuarioComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: "addUsuario",
+        component: AddUsuarioComponent,
+        canActivate: [AuthGuard],
+      },
     ],
   },
   { path: "login", component: LoginComponent },
+  { path: "addUsuario", component: AddUsuarioComponent },
   { path: "**", redirectTo: "/login", pathMatch: "full" },
 ];
 
@@ -115,6 +216,7 @@ const appRoutes: Routes = [
     AddModalProdutoComponent,
     ListUsuarioComponent,
     AddUsuarioComponent,
+    UserMenuComponent
   ],
   imports: [
     FormsModule,
@@ -122,6 +224,18 @@ const appRoutes: Routes = [
     NgxCurrencyModule,
     BrowserModule,
     RouterModule.forRoot(appRoutes),
+  ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpInterceptorService,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorInterceptorService,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent],
 })

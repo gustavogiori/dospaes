@@ -3,5 +3,6 @@ export class Usuario {
   Nome: string;
   Senha: string;
   ChaveCadastro: string;
-  MantemLogado: boolean;
+  Role: string;
+  isLoggedIn: boolean;
 }

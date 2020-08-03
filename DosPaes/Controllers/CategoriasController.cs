@@ -12,7 +12,7 @@ namespace DosPaes.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Policy = Policies.User)]
     public class CategoriasController : ControllerBase
     {
         private readonly DataBaseContext _context = new DataBaseContext();

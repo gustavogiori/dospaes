@@ -13,7 +13,7 @@ namespace DosPaes.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Policy = Policies.User)]
     public class UsuariosController : ControllerBase
     {
         private readonly DataBaseContext _context;

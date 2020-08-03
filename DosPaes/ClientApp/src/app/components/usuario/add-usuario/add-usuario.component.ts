@@ -28,7 +28,7 @@ export class AddUsuarioComponent extends AddBase {
   }
   public usuarios: any[];
   ngOnInit() {
-    this.usuario= new Usuario();
+    this.usuario = new Usuario();
   }
   saveUsuario() {
     this.save(this.usuario);
@@ -39,8 +39,10 @@ export class AddUsuarioComponent extends AddBase {
       Email: "",
       Senha: "",
       Nome: "",
-      MantemLogado: true,
       ChaveCadastro: "",
+      Role: "",
+      isLoggedIn: false,
+
     };
   }
 }

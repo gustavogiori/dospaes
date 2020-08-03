@@ -13,7 +13,7 @@ namespace DosPaes.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Policy = Policies.User)]
     public class ClientesController : ControllerBase
     {
         IClienteService _clienteService;
