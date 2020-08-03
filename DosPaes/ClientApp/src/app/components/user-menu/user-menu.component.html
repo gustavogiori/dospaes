@@ -1,0 +1,29 @@
+<div class="navbar-custom-menu">
+  <ul class="nav navbar-nav">
+    <li *ngIf="logado" class="dropdown user user-menu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <span class="hidden-xs">Bem vindo(a) - {{usuario.Nome}}</span>
+      </a>
+      <ul class="dropdown-menu">
+        <!-- User image -->
+        <li class="user-header">
+
+          <p>
+            {{usuario.Nome}}
+            <small>{{usuario.Email}}</small>
+          </p>
+        </li>
+        <!-- Menu Body -->
+        <!-- Menu Footer-->
+        <li class="user-footer">
+          <div class="pull-left">
+            <a (click)="editar()" class="btn btn-default btn-flat">Editar</a>
+          </div>
+          <div class="pull-right">
+            <a (click)="sair()" class="btn btn-default btn-flat">Sair</a>
+          </div>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>

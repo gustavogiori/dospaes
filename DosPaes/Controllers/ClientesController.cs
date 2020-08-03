@@ -7,11 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DosPaes.Models;
 using DosPaes.Service;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DosPaes.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Policy = Policies.User)]
     public class ClientesController : ControllerBase
     {
         IClienteService _clienteService;

@@ -6,7 +6,7 @@ import { Observable } from "rxjs";
   providedIn: "root",
 })
 export class ProducaoService {
-  baseUrl: string = "https://teste-253.apphb.com/api/producao";
+  baseUrl: string = "https://localhost:44379/api/producao";
 
   constructor(protected http: HttpClient) {}
 

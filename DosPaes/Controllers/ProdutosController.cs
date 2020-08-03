@@ -8,11 +8,13 @@ using Microsoft.EntityFrameworkCore;
 using DosPaes.Models;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DosPaes.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Policy = Policies.User)]
     public class ProdutosController : ControllerBase
     {
         private readonly DataBaseContext _context = new DataBaseContext();

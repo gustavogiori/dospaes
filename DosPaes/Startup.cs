@@ -1,5 +1,8 @@
+using DosPaes.Helpers;
 using DosPaes.Models;
 using DosPaes.Service;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Features;
@@ -9,6 +12,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
+using System;
+using System.Text;
 
 namespace DosPaes
 {
@@ -41,6 +47,31 @@ namespace DosPaes
             services.AddControllers();
 
             services.AddEntityFrameworkSqlServer();
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+           .AddJwtBearer(options =>
+           {
+               options.RequireHttpsMetadata = false;
+               options.SaveToken = true;
+               options.TokenValidationParameters = new TokenValidationParameters
+               {
+                   ValidateIssuer = true,
+                   ValidateAudience = true,
+                   ValidateLifetime = true,
+                   ValidateIssuerSigningKey = true,
+                   ValidIssuer = Configuration["Jwt:Issuer"],
+                   ValidAudience = Configuration["Jwt:Audience"],
+                   IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:SecretKey"])),
+                   ClockSkew = TimeSpan.Zero // Override the default clock skew of 5 mins
+                };
+               services.AddCors();
+           });
+
+            services.AddAuthorization(config =>
+            {
+                config.AddPolicy(Policies.Admin, Policies.AdminPolicy());
+                config.AddPolicy(Policies.User, Policies.UserPolicy());
+            });
+
 
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory
@@ -48,11 +79,13 @@ namespace DosPaes
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+
             services.AddTransient<IDashboardService, DashboradService>();
             services.AddTransient<IProducaoService, ProducaoService>();
             services.AddTransient<IVendaService, VendaService>();
             services.AddTransient<DataBaseContext, DataBaseContext>();
             services.AddTransient<IClienteService, ClienteService>();
+            services.AddTransient<IUsuarioService, UsuarioService>();
 
         }
 
@@ -78,7 +111,8 @@ namespace DosPaes
             }
             app.UseCors("CorsPolicy");
             app.UseRouting();
-
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

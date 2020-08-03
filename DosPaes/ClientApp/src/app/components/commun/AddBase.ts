@@ -29,7 +29,7 @@ export class AddBase implements OnInit {
       (error) => {
         this.submitted = false;
         this.hasError = true;
-        this.msgError = error;
+        this.msgError = error.error;
         this.loading = false;
         console.log(error);
       }

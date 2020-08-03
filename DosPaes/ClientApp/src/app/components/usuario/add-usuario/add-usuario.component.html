@@ -1,0 +1,31 @@
+<app-crud-head [submitted]="submitted" [hasError]="hasError" [msgError]="msgError" [msgSucesso]="msgSucess"
+  [newText]="newText" [type]="type" [iconHead]="iconHead" [redirectToListUrl]="redirectToListUrl">
+  <div contentForm>
+    <div class="submit-form">
+
+      <div class="form-group">
+        <label for="nome">Nome</label>
+        <input type="text" class="form-control" id="nome" required [(ngModel)]="usuario.Nome" name="nome" />
+      </div>
+
+      <div class="form-group">
+        <label for="email">E-mail</label>
+        <input type="text" class="form-control" id="email" required [(ngModel)]="usuario.Email" name="email" />
+      </div>
+
+      <div class="form-group">
+        <label for="senha">Senha</label>
+        <input type="password" class="form-control" id="senha" required [(ngModel)]="usuario.Senha" name="senha" />
+      </div>
+
+      <div class="form-group">
+        <label for="chaveCadastro">Chave de cadastro</label>
+        <input type="password" class="form-control" id="chaveCadastro" required [(ngModel)]="usuario.ChaveCadastro"
+          name="chaveCadastro" />
+      </div>
+
+      <button id="btnSalvar" (click)="saveUsuario()" class="btn btn-success btnStyle">Savar</button>
+    </div>
+  </div>
+</app-crud-head>
+<app-load-component [loading]="loading"></app-load-component>
