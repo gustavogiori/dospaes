@@ -2,9 +2,9 @@ import { Injectable } from "@angular/core";
 import { ServiceBaseService } from "./serviceBase.service";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { Venda } from "../models/venda";
+import { ApiUrl } from "../models/apiUrl";
 
-const baseUrl = "https://localhost:44379/api/vendas";
+const baseUrl = ApiUrl.baseUrl + "vendas";
 
 @Injectable({
   providedIn: "root",

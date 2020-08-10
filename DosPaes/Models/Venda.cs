@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DosPaes.Models
@@ -14,14 +15,6 @@ namespace DosPaes.Models
 
         public int Qnt { get; set; }
 
-        [NotMapped]
-        public string ProdutoDescricao
-        {
-            get
-            {
-                return Produto?.Descricao;
-            }
-        }
         [NotMapped]
         public string ClienteNome
         {
@@ -46,14 +39,13 @@ namespace DosPaes.Models
                 return Cliente?.Telefone1;
             }
         }
-        public int? IdProduto { get; set; }
         public int? IdCliente { get; set; }
         public bool Entregue { get; set; }
-      
-        [ForeignKey("IdProduto")]
-        public virtual Produto Produto { get; set; }
-   
+
         [ForeignKey("IdCliente")]
         public virtual Cliente Cliente { get; set; }
+
+        [NotMapped]
+        public List<ItensVenda> ItensVenda { get; set; }
     }
 }

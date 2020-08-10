@@ -5,6 +5,7 @@ import { ClienteService } from "../../../service/cliente.service";
 import { VendaService } from "../../../service/venda.service";
 import { ProdutoService } from "../../../service/produto.service";
 import { Venda } from "../../../models/venda";
+import { ItensVenda } from "../../../models/itensVenda";
 @Component({
   selector: "app-add-venda",
   templateUrl: "./add-venda.component.html",
@@ -13,6 +14,9 @@ import { Venda } from "../../../models/venda";
 })
 export class AddVendaComponent extends AddBase {
   venda: Venda;
+  isEdit = false;
+  currentItemVenda: ItensVenda;
+  itensVenda: Array<ItensVenda> = new Array<ItensVenda>();
   constructor(
     public vendaService: VendaService,
     public router: Router,
@@ -26,6 +30,7 @@ export class AddVendaComponent extends AddBase {
     this.redirectToListUrl = "dashboard/venda";
   }
   clear() {
+    this.itensVenda = new Array<ItensVenda>();
     var date = new Date(),
       dia = date.getDate().toString(),
       diaF = dia.length == 1 ? "0" + dia : dia,
@@ -45,53 +50,81 @@ export class AddVendaComponent extends AddBase {
       Entregue: false,
       ClienteEndereco: "",
       ClienteTelefone: "",
+      ItensVenda: null,
     };
   }
-  onChangeQntSelecionado(novaQuantidade) {
-    if (novaQuantidade > 0) {
-      this.sumValorVenda(this.venda.IdProduto, novaQuantidade);
-    } else {
-      this.venda.Valor = 0;
-    }
+
+  edit(index) {
+    this.currentItemVenda = this.itensVenda[index];
+    this.isEdit = true;
+    this.openModalDialog();
   }
 
-  sumValorVenda(idProd, qnt) {
-    let prod = this.produtos.find((x) => x.Id == idProd);
-    if (prod) {
-      this.venda.Valor = prod.Valor * qnt;
-    } else {
-      this.venda.Valor = 0;
-    }
-  }
-  atualizarProduto() {
-    this.produtoService.getAll().subscribe((data) => {
-      this.produtos = data;
-    });
+  delete(index) {
+    this.itensVenda.splice(index, 1);
+    this.atualizarQuantidade();
+    this.atualizarTotal();
   }
   atualizarClientes() {
     this.clienteService.getAll().subscribe((data) => {
       this.clientes = data;
     });
   }
-  onChangeProdutoSelecionado(idNewProduto) {
-    if (this.venda.Qnt === 0) {
-      this.venda.Valor = 0;
-    } else {
-      this.sumValorVenda(idNewProduto, this.venda.Qnt);
-    }
-  }
-  novoCliente() {
-
-  }
 
   saveVenda() {
+    this.venda.ItensVenda = this.itensVenda;
     this.save(this.venda);
     this.clear();
   }
+  novo() {
+    this.isEdit = false;
+    this.openModalDialog();
+  }
+  openModalDialog() {
+    if (!this.isEdit) {
+      this.currentItemVenda = new ItensVenda();
+      this.currentItemVenda.Total = undefined;
+      this.currentItemVenda.IdProduto = undefined;
+      this.currentItemVenda.PrecoProduto = undefined;
+    }
+    this.display = "block";
+  }
+  public myOutputEvent(data: ItensVenda): void {
+    this.closeModalDialog();
+
+    if (!this.isEdit) {
+      if (
+        this.itensVenda.find((x) => x.IdProduto === data.IdProduto) ===
+        undefined
+      )
+        this.itensVenda.push(data);
+    } else {
+      this.isEdit = false;
+    }
+    this.atualizarQuantidade();
+    this.atualizarTotal();
+  }
+  atualizarQuantidade() {
+    let quantidadeTotal = 0;
+    this.itensVenda.forEach(function (value) {
+      quantidadeTotal += value.Quantidade;
+    });
+    this.venda.Qnt = quantidadeTotal;
+  }
+  atualizarTotal() {
+    let total = 0;
+    this.itensVenda.forEach(function (value) {
+      total += value.Total;
+    });
+    this.venda.Valor = total;
+  }
+  closeModalDialog() {
+    this.display = "none";
+  }
   public produtos: any[];
   public clientes: any[];
+  display;
   ngOnInit() {
-    this.atualizarProduto();
     this.atualizarClientes();
     this.clear();
   }

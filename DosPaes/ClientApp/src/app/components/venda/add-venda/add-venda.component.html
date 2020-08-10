@@ -2,17 +2,6 @@
   [newText]="newText" [type]="type" [iconHead]="iconHead" [redirectToListUrl]="redirectToListUrl">
   <div contentForm>
     <div class="form-group">
-      <label for="IdProduto">Produto</label>
-      <select (ngModelChange)="onChangeProdutoSelecionado($event)" [(ngModel)]="this.venda.IdProduto"
-        class="form-control" name="IdProduto" value="IdProduto" required>
-        <option value="">Selecione um produto...</option>
-        <option *ngFor="let produto of produtos" [ngValue]="produto.Id">
-          {{ produto.Descricao }}</option>
-      </select>
-      <input value="Novo Produto" data-toggle="modal" data-target="#modalProduto" class="btn btn-primary" type="button">
-      <input value="Atualizar Produtos" class="btn btn-default" (click)="atualizarProduto()" type="button">
-    </div>
-    <div class="form-group">
       <label for="IdCliente">Cliente</label>
       <select data-show-subtext="true" data-live-search="true" [(ngModel)]="this.venda.IdCliente"
         class="selectpicker form-control" name="IdCliente" value="IdCliente" required>
@@ -30,8 +19,7 @@
     <div class="submit-form">
       <div class="form-group">
         <label for="qnt">Quantidade</label>
-        <input (ngModelChange)="onChangeQntSelecionado($event)" type="number" class="form-control" id="qnt" required
-          [(ngModel)]="venda.Qnt" name="qnt" />
+        <input type="number" class="form-control" id="qnt" required [(ngModel)]="venda.Qnt" name="qnt" />
       </div>
 
 
@@ -41,11 +29,66 @@
           [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" name="valor" />
       </div>
 
+      <table class="table table-striped table-bordered table-list">
+        <thead class="thead-light">
+          <th>Produto</th>
+          <th>Preço</th>
+          <th>Quantidade</th>
+          <th>Total</th>
+          <th>
+            <a class="btn btn-sm btn-success text-white" (click)="novo()"><i class="fa fa-plus"></i> Novo</a>
+          </th>
+        </thead>
+        <tbody>
+          <tr *ngIf="itensVenda.length==0">
+            <td class="font-italic text-center" colspan="5">
+              Nehum item cadastrado!
+            </td>
+          </tr>
+
+          <tr *ngFor="let item of itensVenda;let i=index;">
+            <td>{{item.NomeProduto}}</td>
+            <td>{{item.PrecoProduto}}</td>
+            <td>{{item.Quantidade}}</td>
+            <td>{{item.Total}}</td>
+            <td>
+              <a class="btn btn-sm btn-info text-white" (click)="edit(i)"><i class="fa fa-pencil"></i></a>
+              <a class="btn btn-sm btn-danger text-white ml-1" (click)="delete(i)"><i class="fa fa-trash"></i></a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
       <button id="btnSalvar" (click)="saveVenda()" class="btn btn-success btnStyle">Savar</button>
     </div>
   </div>
 </app-crud-head>
 
+<!-- modal -->
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':display}">
+  <!-- modal-dialog -->
+  <div class="modal-dialog" role="document">
+    <!-- modal-content -->
+    <div class="modal-content">
+      <!-- modal-header -->
+      <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="closeModalDialog()"><span
+            aria-hidden="true">&times;</span></button>
+        <!-- <h4 class="modal-title">Login</h4> -->
+      </div>
+
+      <!-- modal-body -->
+      <div class="modal-body">
+        <app-itens-venda [itemVenda]="currentItemVenda" (myOutput)="myOutputEvent($event)"></app-itens-venda>
+      </div>
+
+      <!-- modal-footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="closeModalDialog()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- Modal -->
 <div class="modal fade" id="modalCliente" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">

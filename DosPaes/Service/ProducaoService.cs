@@ -20,9 +20,12 @@ namespace DosPaes.Service
             List<Venda> vendas = await _serviceProvider.GetVendaDate(dateFilter);
             List<Producao> paesProduzidos = new List<Producao>();
 
-            foreach (var venda in vendas.GroupBy(x => x.IdProduto).Select(g => g.First()))
+            foreach (var venda in vendas)
             {
-                paesProduzidos.Add(new Producao() { Produto = venda.Produto.Descricao, Quantidade = vendas.Where(x => x.Produto.Id == venda.Produto.Id).Sum(x => x.Qnt) });
+                foreach (var itemVenda in venda.ItensVenda)
+                {
+                    paesProduzidos.Add(new Producao() { Produto = itemVenda.NomeProduto, Quantidade = itemVenda.Quantidade });
+                }
             }
 
             return JsonService<List<Producao>>.GetJson(paesProduzidos);

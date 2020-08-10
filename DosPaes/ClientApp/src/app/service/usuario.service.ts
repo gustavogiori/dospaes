@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ServiceBaseService } from './serviceBase.service';
 import { HttpClient } from '@angular/common/http';
-
-const baseUrl: string = "https://localhost:44379/api/usuarios";
+import { ApiUrl } from '../models/apiUrl';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +9,7 @@ const baseUrl: string = "https://localhost:44379/api/usuarios";
 
 export class UsuarioService extends ServiceBaseService {
   constructor(protected http: HttpClient) {
-    super(http, baseUrl);
+    super(http, ApiUrl.baseUrl + "usuarios");
   }
 
 }

@@ -85,7 +85,7 @@ namespace DosPaes.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<string>> GetVenda(int id)
         {
-            var venda = _context.Vendas.Include(x => x.Cliente).Include(x => x.Produto).FirstOrDefault(x => x.Id == id);
+            var venda = _context.Vendas.Include(x => x.Cliente).FirstOrDefault(x => x.Id == id);
 
             if (venda == null)
             {
@@ -133,10 +133,36 @@ namespace DosPaes.Controllers
         [HttpPost]
         public async Task<ActionResult<Venda>> PostVenda(Venda venda)
         {
-            _context.Vendas.Add(venda);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Vendas.Add(venda);
+                int salvou = await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetVenda", new { id = venda.Id }, venda);
+                if (salvou == 1)
+                {
+                    foreach (ItensVenda itemVenda in venda.ItensVenda)
+                    {
+                        _context.ItensVendas.Add(itemVenda);
+                    }
+                    try
+                    {
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                }
+                return CreatedAtAction("GetVenda", new { id = venda.Id }, venda);
+            }
+            catch (Exception ex)
+            {
+                var teste = ex.Message;
+                _context.Vendas.Remove(venda);
+                _context.ItensVendas.RemoveRange(venda.ItensVenda);
+                _context.SaveChanges();
+                return this.StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
 
         // DELETE: api/Vendas/5

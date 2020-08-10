@@ -45,6 +45,7 @@ import { AuthGuard } from "./components/guards/auth.guard";
 import { HttpInterceptorService } from "./service/http-interceptor.service";
 import { ErrorInterceptorService } from "./service/error-interceptor.service";
 import { UserMenuComponent } from "./components/user-menu/user-menu.component";
+import { ItensVendaComponent } from "../app/components/venda/itens-venda/itens-venda.component";
 
 const appRoutes: Routes = [
   {
@@ -216,7 +217,8 @@ const appRoutes: Routes = [
     AddModalProdutoComponent,
     ListUsuarioComponent,
     AddUsuarioComponent,
-    UserMenuComponent
+    UserMenuComponent,
+    ItensVendaComponent,
   ],
   imports: [
     FormsModule,
