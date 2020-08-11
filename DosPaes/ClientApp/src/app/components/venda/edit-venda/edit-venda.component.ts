@@ -1,11 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { EditBase } from "../../commun/EditBase";
-import { Venda } from "src/app/models/venda";
-import { VendaService } from "src/app/service/venda.service";
 import { ActivatedRoute, Router, Params } from "@angular/router";
-import { ProducaoService } from "src/app/service/producao.service";
-import { ClienteService } from "src/app/service/cliente.service";
-import { ProdutoService } from "src/app/service/produto.service";
+import { ItensVenda } from "../../../models/itensVenda";
+import { Venda } from "../../../models/venda";
+import { VendaService } from "../../../service/venda.service";
+import { ProdutoService } from "../../../service/produto.service";
+import { ClienteService } from "../../../service/cliente.service";
 let id;
 @Component({
   selector: "app-edit-venda",
@@ -14,17 +14,72 @@ let id;
 })
 export class EditVendaComponent extends EditBase {
   public venda: Venda;
+  isEdit = false;
+  currentItemVenda: ItensVenda;
+  display;
   constructor(
     protected vendaService: VendaService,
-    private produtoService:ProdutoService,
-    private clienteService:ClienteService,
+    private produtoService: ProdutoService,
+    private clienteService: ClienteService,
     public route: ActivatedRoute,
     protected router: Router
   ) {
     super(vendaService, route);
   }
+  public myOutputEvent(data: ItensVenda): void {
+    this.closeModalDialog();
 
+    if (!this.isEdit) {
+      if (
+        this.venda.ItensVenda.find((x) => x.IdProduto === data.IdProduto) ===
+        undefined
+      )
+      this.venda.ItensVenda.push(data);
+    } else {
+      this.isEdit = false;
+    }
+    this.atualizarQuantidade();
+    this.atualizarTotal();
+  }
+  atualizarQuantidade() {
+    let quantidadeTotal = 0;
+    this.venda.ItensVenda.forEach(function (value) {
+      quantidadeTotal += value.Quantidade;
+    });
+    this.venda.Qnt = quantidadeTotal;
+  }
+  edit(index) {
+    this.currentItemVenda = this.venda.ItensVenda[index];
+    this.isEdit = true;
+    this.openModalDialog();
+  }
+  openModalDialog() {
+    if (!this.isEdit) {
+      this.currentItemVenda = new ItensVenda();
+      this.currentItemVenda.Total = undefined;
+      this.currentItemVenda.IdProduto = undefined;
+      this.currentItemVenda.PrecoProduto = undefined;
+    }
+    this.display = "block";
+    console.log('clicou');
+  }
+  delete(index) {
+    this.venda.ItensVenda.splice(index, 1);
+    this.atualizarQuantidade();
+    this.atualizarTotal();
+  }
+  atualizarTotal() {
+    let total = 0;
+    this.venda.ItensVenda.forEach(function (value) {
+      total += value.Total;
+    });
+    this.venda.Valor = total;
+  }
+  closeModalDialog() {
+    this.display = "none";
+  }
   ngOnInit() {
+    this.venda= new Venda();
     this.atualizarClientes();
     this.atualizarProduto();
     this.newText = "Editar";
@@ -36,6 +91,8 @@ export class EditVendaComponent extends EditBase {
 
       this.vendaService.get(id).subscribe((data) => {
         this.venda = data;
+       
+        console.log(this.venda);
       });
     });
   }
@@ -54,13 +111,7 @@ export class EditVendaComponent extends EditBase {
       this.sumValorVenda(idNewProduto, this.venda.Qnt);
     }
   }
-  onChangeQntSelecionado(novaQuantidade) {
-    if (novaQuantidade > 0) {
-      this.sumValorVenda(this.venda.IdProduto, novaQuantidade);
-    } else {
-      this.venda.Valor = 0;
-    }
-  }
+
   atualizarProduto() {
     this.produtoService.getAll().subscribe((data) => {
       this.produtos = data;
@@ -70,6 +121,10 @@ export class EditVendaComponent extends EditBase {
     this.clienteService.getAll().subscribe((data) => {
       this.clientes = data;
     });
+  }
+  novo() {
+    this.isEdit = false;
+    this.openModalDialog();
   }
   public produtos: any[];
   public clientes: any[];

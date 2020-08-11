@@ -5,7 +5,6 @@ export class Venda {
   Data;
   Qnt: number;
   Valor: number;
-  IdProduto: number;
   ProdutoDescricao: string;
   IdCliente: number;
   ClienteNome: string;

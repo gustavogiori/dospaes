@@ -17,16 +17,18 @@ namespace DosPaes.Service
         public async Task<string> GetProducao(string typeFilter = "", string dateFilterString = "")
         {
             DateTime dateFilter = Util.UtilDateTime.GetDateFilterVendas(typeFilter, dateFilterString);
-            List<Venda> vendas = await _serviceProvider.GetVendaDate(dateFilter);
+            List<ItensVenda> itensVendas = await _serviceProvider.GetItensVendaDate(dateFilter);
             List<Producao> paesProduzidos = new List<Producao>();
 
-            foreach (var venda in vendas)
+            foreach (var itemVenda in itensVendas)
             {
-                foreach (var itemVenda in venda.ItensVenda)
-                {
+                if (!paesProduzidos.Any(x => x.Produto == itemVenda.NomeProduto))
                     paesProduzidos.Add(new Producao() { Produto = itemVenda.NomeProduto, Quantidade = itemVenda.Quantidade });
-                }
+                else
+                    paesProduzidos.Find(x => x.Produto == itemVenda.NomeProduto).Quantidade += itemVenda.Quantidade;
+
             }
+
 
             return JsonService<List<Producao>>.GetJson(paesProduzidos);
         }

@@ -43,7 +43,6 @@ export class AddVendaComponent extends AddBase {
       Data: final,
       Valor: 0,
       Qnt: 1,
-      IdProduto: 0,
       ProdutoDescricao: "",
       IdCliente: 0,
       ClienteNome: "",

@@ -18,7 +18,8 @@ namespace DosPaes.Service
             var settings = new JsonSerializerSettings
             {
                 DateFormatString = "yyyy-MM-dd",
-                DateTimeZoneHandling = DateTimeZoneHandling.Unspecified
+                DateTimeZoneHandling = DateTimeZoneHandling.Unspecified,
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
             };
             var json = JsonConvert.SerializeObject(objeto, settings);
             return json;

@@ -43,7 +43,7 @@
                         <div class="panel-heading">
                             <h4 class="panel-title">
                                 <a data-toggle="collapse" data-parent="#accordion" href="#{{board.Id}}">
-                                    {{board.Produto}}</a>
+                                    {{board.Cliente}}</a>
                                 &nbsp;
                                 <span class="badge badge-primary badge-pill">{{board.Quantidade}}</span>
                             </h4>
@@ -53,24 +53,33 @@
 
                             <div class="panel-body">
                                 <div class="list-group">
-                                    <div *ngFor="let venda of board.Vendas">
-                                        <a
-                                            class="list-group-item list-group-item-action flex-column align-items-start itemList">
-                                            <input #saveUserNameCheckBox id="saveUserNameCheckBox"
-                                                (change)="onSaveUsernameChanged(saveUserNameCheckBox.checked,board.Id,venda.Id)"
-                                                [checked]="venda.Entregue" type="checkbox" class="form-check-input" />
-                                            &nbsp;
-                                            <label class="form-check-label">Entregue</label>
 
-                                            <div class="d-flex w-100 justify-content-between">
-                                                <h5 class="mb-1">Cliente: {{venda.ClienteNome}}</h5>
-                                            </div>
-                                            <p class="mb-1">Preço: {{venda.Valor}}</p>
-                                            <p class="mb-1">Quantidade: {{venda.Qnt}}</p>
-                                            <p class="mb-1">Endereço: {{venda.ClienteEndereco}}</p>
-                                            <p class="mb-1">Telefone: {{venda.ClienteTelefone}}</p>
-                                        </a>
-                                    </div>
+                                    <a
+                                        class="list-group-item list-group-item-action flex-column align-items-start itemList">
+                                        <input #saveUserNameCheckBox id="saveUserNameCheckBox"
+                                            (change)="onEntregueChanged(saveUserNameCheckBox.checked,board.Id,board.Venda.Id)"
+                                            [checked]="board.Venda.Entregue" type="checkbox" class="form-check-input" />
+                                        &nbsp;
+                                        <label class="form-check-label">Entregue</label>
+
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h5 class="mb-1">Cliente: {{board.Venda.ClienteNome}}</h5>
+                                        </div>
+                                        <p class="mb-1">Preço: {{board.Venda.Valor}}</p>
+                                        <p class="mb-1">Quantidade: {{board.Venda.Qnt}}</p>
+                                        <p class="mb-1">Endereço: {{board.Venda.ClienteEndereco}}</p>
+                                        <p class="mb-1">Telefone: {{board.Venda.ClienteTelefone}}</p>
+                                        <br>
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h5 class="mb-1">Itens da venda:</h5>
+                                        </div>
+                                        <div *ngFor="let itemVenda of board.Venda.ItensVenda">
+                                            <p class="mb-1">Produto: {{itemVenda.NomeProduto}}</p>
+                                            <p class="mb-1">Quantidade: {{itemVenda.Quantidade}}</p>
+                                            <p class="mb-1">SubTotal: {{itemVenda.Total}}</p>
+                                            <hr>
+                                        </div>
+                                    </a>
                                 </div>
                             </div>
                         </div>

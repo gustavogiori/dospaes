@@ -1,7 +1,8 @@
-import { OnInit } from "@angular/core";
+import { OnInit, Directive } from "@angular/core";
 import { CategoriaService } from "../../service/categoria.service";
 import { ActivatedRoute } from "@angular/router";
 
+@Directive()
 export class EditBase implements OnInit {
   ngOnInit(): void {}
   submitted = false;

@@ -10,7 +10,7 @@ namespace DosPaes.Models
     [Table("ItensVendas")]
     public class ItensVenda
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         [Key]
         public int Id { get; set; }
         public int IdProduto { get; set; }
@@ -30,5 +30,7 @@ namespace DosPaes.Models
         public int Quantidade { get; set; }
         [ForeignKey("IdProduto")]
         public Produto Produto { get; set; }
+        [ForeignKey("IdVenda")]
+        public Venda Venda { get; set; }
     }
 }

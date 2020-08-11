@@ -21,7 +21,16 @@ namespace DosPaes.Service
 
             return JsonService<List<Venda>>.GetJson(vendasDate);
         }
+        public async Task<List<ItensVenda>> GetItensVendaDate(DateTime date)
+        {
+            var itensVenda = await _context.ItensVendas.Include(x => x.Produto).Include(x => x.Venda).ToListAsync();
+            if (date != DateTime.MinValue)
+                itensVenda = itensVenda.Where(x => x.Venda.Data == date).ToList();
+            else
+                itensVenda = itensVenda.Where(x => x.Venda.Data != date).ToList();
 
+            return itensVenda;
+        }
         public async Task<List<Venda>> GetVendaDate(DateTime date)
         {
             List<Venda> vendasDate;
@@ -39,7 +48,7 @@ namespace DosPaes.Service
                 {
                     list = _context.ItensVendas.Include(x => x.Produto).Where(x => x.IdVenda == item.Id).ToList();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
 
                 }
@@ -59,23 +68,14 @@ namespace DosPaes.Service
             int id = 0;
             foreach (var item in list)
             {
-                var itemsVendas = item.ItensVenda;
-                foreach (var itemsProduto in item.ItensVenda)
-                {
-                    if (board.Any(x => x.Produto == itemsProduto.NomeProduto))
-                        continue;
-                    else
-                    {
-                        BoardVendas itemBoard = new BoardVendas();
-                        itemBoard.Id = id;
-                        itemBoard.Produto = itemsProduto.NomeProduto;
-                        itemBoard.Quantidade = itemsVendas.Where(x => x.Produto.Id == itemsProduto.IdProduto).Sum(x => x.Quantidade);
-                        itemBoard.Vendas = new List<ItensVenda>();
-                        itemBoard.Vendas.AddRange(itemsVendas);
-                        board.Add(itemBoard);
-                        id++;
-                    }
-                }
+                BoardVendas itemBoard = new BoardVendas();
+                itemBoard.Id = id;
+                itemBoard.Cliente = item.ClienteNome;
+                var itens = item.ItensVenda.Where(x => x.IdVenda == item.Id);
+                itemBoard.Quantidade = itens.Sum(x => x.Quantidade);
+                itemBoard.Venda = item;
+                board.Add(itemBoard);
+                id++;
             }
             var json = JsonService<List<BoardVendas>>.GetJson(board);
             return json;

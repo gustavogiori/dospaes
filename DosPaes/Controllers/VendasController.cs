@@ -86,6 +86,7 @@ namespace DosPaes.Controllers
         public async Task<ActionResult<string>> GetVenda(int id)
         {
             var venda = _context.Vendas.Include(x => x.Cliente).FirstOrDefault(x => x.Id == id);
+            venda.ItensVenda = _context.ItensVendas.Include(x => x.Produto).Where(x => x.IdVenda == venda.Id).ToList();
 
             if (venda == null)
             {
@@ -106,11 +107,25 @@ namespace DosPaes.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(venda).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                _context.Entry(venda).State = EntityState.Modified;
+                int salvou = await _context.SaveChangesAsync();
+
+                if (salvou == 1)
+                {
+                    try
+                    {
+                        await RemoveItensVenda(venda);
+                        await AdicionarItensVenda(venda);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (Exception ex)
+                    {
+                        return this.StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                    }
+                }
+
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -127,6 +142,14 @@ namespace DosPaes.Controllers
             return NoContent();
         }
 
+        private async Task RemoveItensVenda(Venda venda)
+        {
+            foreach (var ItemVenda in _context.ItensVendas.Where(x => x.IdVenda == venda.Id).ToList())
+            {
+                _context.ItensVendas.Remove(ItemVenda);
+            }
+        }
+
         // POST: api/Vendas
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
@@ -140,20 +163,12 @@ namespace DosPaes.Controllers
 
                 if (salvou == 1)
                 {
-                    foreach (ItensVenda itemVenda in venda.ItensVenda)
-                    {
-                        _context.ItensVendas.Add(itemVenda);
-                    }
-                    try
-                    {
-                        await _context.SaveChangesAsync();
-                    }
-                    catch (Exception ex)
-                    {
-
-                    }
+                    await AdicionarItensVenda(venda);
                 }
-                return CreatedAtAction("GetVenda", new { id = venda.Id }, venda);
+                return CreatedAtAction("GetVenda", new
+                {
+                    id = venda.Id
+                }, venda);
             }
             catch (Exception ex)
             {
@@ -162,6 +177,24 @@ namespace DosPaes.Controllers
                 _context.ItensVendas.RemoveRange(venda.ItensVenda);
                 _context.SaveChanges();
                 return this.StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        private async Task AdicionarItensVenda(Venda venda)
+        {
+            foreach (ItensVenda itemVenda in venda.ItensVenda)
+            {
+                try
+                {
+                    itemVenda.IdVenda = venda.Id;
+                    itemVenda.Id = 0;
+                    itemVenda.Produto = null;
+                    _context.ItensVendas.Add(itemVenda);
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
             }
         }
 
@@ -174,7 +207,7 @@ namespace DosPaes.Controllers
             {
                 return NotFound();
             }
-
+            await RemoveItensVenda(venda);
             _context.Vendas.Remove(venda);
             await _context.SaveChangesAsync();
 

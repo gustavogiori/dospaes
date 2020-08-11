@@ -17,8 +17,8 @@ namespace DosPaes.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            // optionsBuilder.UseSqlServer(@"Server=41b1c84d-84c1-4717-a896-a8d101463f9a.sqlserver.sequelizer.com;Database=db41b1c84d84c14717a896a8d101463f9a;User ID=yfaahsrvcubglvtg;Password=iR6aBThtMi3FL2ZcTbnMdwTHgXZXmnXtmvjwhjXnfPwhYion6bCzLgnU7w2L3sgz;");
-            optionsBuilder.UseSqlServer(@"data source=.\sqlexpress;Initial Catalog=DosPaes; Integrated Security=SSPI;");
+            optionsBuilder.UseSqlServer(@"Server=41b1c84d-84c1-4717-a896-a8d101463f9a.sqlserver.sequelizer.com;Database=db41b1c84d84c14717a896a8d101463f9a;User ID=yfaahsrvcubglvtg;Password=iR6aBThtMi3FL2ZcTbnMdwTHgXZXmnXtmvjwhjXnfPwhYion6bCzLgnU7w2L3sgz;");
+            // optionsBuilder.UseSqlServer(@"data source=.\sqlexpress;Initial Catalog=DosPaes; Integrated Security=SSPI;");
         }
 
         public DbSet<Cliente> Cliente { get; set; }

@@ -1,3 +1,3 @@
 export class ApiUrl {
-  public static baseUrl = "https://localhost:44379/api/";
+  public static baseUrl = "https://teste-253.apphb.com/api/";
 }

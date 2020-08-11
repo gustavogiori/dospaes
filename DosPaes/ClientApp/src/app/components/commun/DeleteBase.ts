@@ -1,6 +1,7 @@
-import { OnInit } from "@angular/core";
+import { OnInit, Directive } from "@angular/core";
 import { ActivatedRoute, Params } from "@angular/router";
 
+@Directive()
 export class DeleteBase implements OnInit {
   submitted = false;
   hasError = false;

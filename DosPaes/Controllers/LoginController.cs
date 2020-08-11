@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using DosPaes.Models;
+using DosPaes.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -48,7 +49,7 @@ namespace DosPaes.Controllers
 
         Usuario AuthenticateUser(Usuario loginCredentials)
         {
-            Usuario user = _context.Usuario.SingleOrDefault(x => x.Email == loginCredentials.Email && x.Senha == loginCredentials.Senha);
+            Usuario user = _context.Usuario.SingleOrDefault(x => x.Email == loginCredentials.Email && x.Senha == Md5Utilites.GerarHashMd5(loginCredentials.Senha));
             return user;
         }
 

@@ -12,7 +12,7 @@ namespace DosPaes.Models
         public DateTime Data { get; set; }
 
         public decimal Valor { get; set; }
-
+        public bool Entregue { get; set; }
         public int Qnt { get; set; }
 
         [NotMapped]
@@ -40,7 +40,6 @@ namespace DosPaes.Models
             }
         }
         public int? IdCliente { get; set; }
-        public bool Entregue { get; set; }
 
         [ForeignKey("IdCliente")]
         public virtual Cliente Cliente { get; set; }

@@ -1,8 +1,9 @@
-import { OnInit } from "@angular/core";
+import { OnInit, Directive } from "@angular/core";
 import { Router } from "@angular/router";
 import { ServiceBaseService } from "../../service/serviceBase.service";
 
 
+@Directive()
 export class ListBase implements OnInit {
   constructor(public router: Router, protected service: ServiceBaseService) {}
   text = "";

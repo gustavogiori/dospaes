@@ -50,21 +50,19 @@ export class ListVendaComponent extends ListBase {
       "Código",
       "Data",
       "Valor",
+      "Entregue",
       "Qntd",
-      "Produto",
       "Cliente",
-      "Tel",
-      "Entregue"
+      "Tel"
     );
     this.tableHeadCode = new Array<String>(
       "Id",
       "Data",
       "Valor",
+      "Entregue",
       "Qnt",
-      "ProdutoDescricao",
       "ClienteNome",
-      "ClienteTelefone",
-      "Entregue"
+      "ClienteTelefone"
     );
   }
 }
