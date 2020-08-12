@@ -13,7 +13,7 @@ import { ItensVenda } from "../../../models/itensVenda";
   providers: [VendaService, ProdutoService, ClienteService],
 })
 export class AddVendaComponent extends AddBase {
-  venda: Venda;
+  venda: Venda = new Venda();
   isEdit = false;
   currentItemVenda: ItensVenda;
   itensVenda: Array<ItensVenda> = new Array<ItensVenda>();
@@ -65,8 +65,11 @@ export class AddVendaComponent extends AddBase {
     this.atualizarTotal();
   }
   atualizarClientes() {
+    console.log("atualizando clientes");
     this.clienteService.getAll().subscribe((data) => {
       this.clientes = data;
+      console.log("voltou clientes");
+      console.log(this.clientes);
     });
   }
 
@@ -124,6 +127,8 @@ export class AddVendaComponent extends AddBase {
   public clientes: any[];
   display;
   ngOnInit() {
+    this.venda = new Venda();
+    console.log("on init");
     this.atualizarClientes();
     this.clear();
   }

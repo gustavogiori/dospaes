@@ -164,6 +164,13 @@ namespace DosPaes.Controllers
                 if (salvou == 1)
                 {
                     await AdicionarItensVenda(venda);
+                    int salvouItens = await _context.SaveChangesAsync();
+
+                    if (salvouItens == 0)
+                        _context.Vendas.Remove(venda);
+
+                    await _context.SaveChangesAsync();
+
                 }
                 return CreatedAtAction("GetVenda", new
                 {
@@ -176,7 +183,12 @@ namespace DosPaes.Controllers
                 _context.Vendas.Remove(venda);
                 _context.ItensVendas.RemoveRange(venda.ItensVenda);
                 _context.SaveChanges();
-                return this.StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                return NotFound(
+                     new
+                     {
+                         Mensagem = ex.Message,
+                         Erro = true
+                     });
             }
         }
 

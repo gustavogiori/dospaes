@@ -22,7 +22,6 @@
         <input type="number" class="form-control" id="qnt" required [(ngModel)]="venda.Qnt" name="qnt" />
       </div>
 
-
       <div class="form-group">
         <label for="valor">Total</label>
         <input class="form-control" id="valor" required [(ngModel)]="venda.Valor" currencyMask
@@ -62,40 +61,35 @@
       <button id="btnSalvar" (click)="saveVenda()" class="btn btn-success btnStyle">Savar</button>
     </div>
   </div>
-</app-crud-head>
+  <!-- modal -->
+  <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':display}">
+    <!-- modal-dialog -->
+    <div class="modal-dialog" role="document">
+      <!-- modal-content -->
+      <div class="modal-content">
+        <!-- modal-header -->
+        <div class="modal-header">
+          <button type="button" class="close" aria-label="Close" (click)="closeModalDialog()"><span
+              aria-hidden="true">&times;</span></button>
+          <!-- <h4 class="modal-title">Login</h4> -->
+        </div>
 
-<!-- modal -->
-<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':display}">
-  <!-- modal-dialog -->
-  <div class="modal-dialog" role="document">
-    <!-- modal-content -->
-    <div class="modal-content">
-      <!-- modal-header -->
-      <div class="modal-header">
-        <button type="button" class="close" aria-label="Close" (click)="closeModalDialog()"><span
-            aria-hidden="true">&times;</span></button>
-        <!-- <h4 class="modal-title">Login</h4> -->
-      </div>
+        <!-- modal-body -->
+        <div class="modal-body">
+          <app-itens-venda [itemVenda]="currentItemVenda" (myOutput)="myOutputEvent($event)"></app-itens-venda>
+        </div>
 
-      <!-- modal-body -->
-      <div class="modal-body">
-        <app-itens-venda [itemVenda]="currentItemVenda" (myOutput)="myOutputEvent($event)"></app-itens-venda>
-      </div>
-
-      <!-- modal-footer -->
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" (click)="closeModalDialog()">Close</button>
+        <!-- modal-footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" (click)="closeModalDialog()">Close</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<!-- Modal -->
-<div class="modal fade" id="modalCliente" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
-  <app-add-modal-cliente></app-add-modal-cliente>
-</div>
-<div class="modal fade" id="modalProduto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
-  <app-add-modal-produto></app-add-modal-produto>
-</div>
+  <!-- Modal -->
+  <div class="modal fade" id="modalCliente" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <app-add-modal-cliente></app-add-modal-cliente>
+  </div>
+</app-crud-head>
 <app-load-component [loading]="loading"></app-load-component>

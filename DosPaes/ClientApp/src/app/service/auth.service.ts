@@ -4,7 +4,6 @@ import { BehaviorSubject } from "rxjs";
 import { map } from "rxjs/operators";
 import { Router } from "@angular/router";
 import { Usuario } from "../models/usuario";
-import { UserMenuComponent } from "../components/user-menu/user-menu.component";
 import { MenuUser } from "../models/menuUser";
 
 @Injectable({
