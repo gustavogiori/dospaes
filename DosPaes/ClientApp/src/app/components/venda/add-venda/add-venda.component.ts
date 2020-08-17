@@ -20,7 +20,6 @@ export class AddVendaComponent extends AddBase {
   constructor(
     public vendaService: VendaService,
     public router: Router,
-    private produtoService: ProdutoService,
     private clienteService: ClienteService
   ) {
     super(router, vendaService);
@@ -42,7 +41,7 @@ export class AddVendaComponent extends AddBase {
       Id: 0,
       Data: final,
       Valor: 0,
-      Qnt: 1,
+      Qnt: 0,
       ProdutoDescricao: "",
       IdCliente: 0,
       ClienteNome: "",

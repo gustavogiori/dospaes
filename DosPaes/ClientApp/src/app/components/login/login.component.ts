@@ -51,8 +51,6 @@ export class LoginComponent implements OnInit {
         },
         (error) => {
           this.hasError = true;
-          alert(error.error);
-          alert('erro');
           this.msgError = "Login ou senha inváilidos!";
         }
       );

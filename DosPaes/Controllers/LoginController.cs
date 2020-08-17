@@ -49,7 +49,7 @@ namespace DosPaes.Controllers
 
         Usuario AuthenticateUser(Usuario loginCredentials)
         {
-            Usuario user = _context.Usuario.SingleOrDefault(x => x.Email == loginCredentials.Email && x.Senha == Md5Utilites.GerarHashMd5(loginCredentials.Senha));
+            Usuario user = _context.Usuario.SingleOrDefault(x => x.Email == loginCredentials.Email && x.Senha == loginCredentials.Senha);
             return user;
         }
 

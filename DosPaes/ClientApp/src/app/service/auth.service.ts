@@ -5,6 +5,7 @@ import { map } from "rxjs/operators";
 import { Router } from "@angular/router";
 import { Usuario } from "../models/usuario";
 import { MenuUser } from "../models/menuUser";
+import { ApiUrl } from "../models/apiUrl";
 
 @Injectable({
   providedIn: "root",
@@ -16,7 +17,7 @@ export class AuthService {
 
   login(userDetails) {
     console.log(userDetails);
-    return this.http.post<any>("/api/login", userDetails).pipe(
+    return this.http.post<any>(ApiUrl.baseUrl + "login", userDetails).pipe(
       map(
         (response) => {
           localStorage.setItem("authToken", response.token);

@@ -170,12 +170,8 @@ namespace DosPaes.Controllers
                         _context.Vendas.Remove(venda);
 
                     await _context.SaveChangesAsync();
-
                 }
-                return CreatedAtAction("GetVenda", new
-                {
-                    id = venda.Id
-                }, venda);
+
             }
             catch (Exception ex)
             {
@@ -190,6 +186,7 @@ namespace DosPaes.Controllers
                          Erro = true
                      });
             }
+            return Ok();
         }
 
         private async Task AdicionarItensVenda(Venda venda)
