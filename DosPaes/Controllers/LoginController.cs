@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using DosPaes.Errors;
 using DosPaes.Models;
 using DosPaes.Security;
 using Microsoft.AspNetCore.Authorization;
@@ -28,14 +31,15 @@ namespace DosPaes.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult Login([FromBody]Usuario login)
+        public IActionResult Login([FromBody] Usuario login)
         {
             IActionResult response = Unauthorized();
             Usuario user = AuthenticateUser(login);
-            user.Role = "User";
-            user.isLoggedIn = true;
+
             if (user != null)
             {
+                user.Role = "User";
+                user.isLoggedIn = true;
                 var tokenString = GenerateJWT(user);
                 response = Ok(new
                 {

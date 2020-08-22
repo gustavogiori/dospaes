@@ -28,8 +28,8 @@ export class ListUsuarioComponent extends ListBase {
     this.redirectToEdit = "dashboard/editUsuario/";
     this.redirectToDelete = "dashboard/deleteUsuario/";
     this.columnKey = "Email";
-    this.tableHead = new Array<String>("Nome", "E-mail");
-    this.tableHeadCode = new Array<String>("Nome", "Email");
+    this.tableHead = new Array<String>("E-mail", "Nome");
+    this.tableHeadCode = new Array<String>("Email", "Nome");
     this.usuarios = new Array<Usuario>();
   }
   ngOnInit() {

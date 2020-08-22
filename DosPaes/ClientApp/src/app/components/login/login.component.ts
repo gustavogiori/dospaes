@@ -36,8 +36,10 @@ export class LoginComponent implements OnInit {
   }
   usuario: Usuario;
   hasError = false;
+  loading=false;
   msgError = "";
   onSubmit() {
+    this.loading=true;
     let returnUrl = this.route.snapshot.queryParamMap.get("returnUrl") || "/";
     if (returnUrl == "/") returnUrl = "dashboard/home";
     this.authService
@@ -48,10 +50,17 @@ export class LoginComponent implements OnInit {
           this.hasError = false;
           this.msgError = "";
           this.router.navigate([returnUrl]);
+          this.loading=false;
         },
         (error) => {
+          console.log(error);
           this.hasError = true;
-          this.msgError = "Login ou senha inváilidos!";
+          this.msgError = "Ops! Ocorreu um erro ao logar, tente novamente mais tarde!";
+          if(error===401){
+            this.msgError="Usuário ou senha inválidos!";
+          }
+
+          this.loading=false;
         }
       );
   }

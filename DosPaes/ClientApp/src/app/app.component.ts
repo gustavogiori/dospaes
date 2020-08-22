@@ -38,7 +38,6 @@ export class AppComponent {
         this.routeLoading = false;
       }
     });
-    console.log(this.usuario);
     this.router.navigateByUrl("dashboard/home");
   }
 }
