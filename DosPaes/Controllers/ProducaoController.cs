@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using DosPaes.Models;
 using DosPaes.Service;
 using DosPaes.Util;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,6 +13,7 @@ namespace DosPaes.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Policy = Policies.User)]
     public class ProducaoController : ControllerBase
     {
         IProducaoService _producaoService;

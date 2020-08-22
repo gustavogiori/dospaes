@@ -42,8 +42,16 @@ namespace DosPaes.Service
 
         private void FiltraDadosPorData(out List<Custo> custos, out List<Venda> vendas, DateTime dateInicio, DateTime dateFim)
         {
-            custos = _context.Custos.Where(x => x.Data >= dateInicio && x.Data <= dateFim).ToList();
-            vendas = _context.Vendas.Where(x => x.Data >= dateInicio && x.Data <= dateFim).ToList();
+            try
+            {
+                custos = _context.Custos.Where(x => x.Data >= dateInicio && x.Data <= dateFim).ToList();
+                vendas = _context.Vendas.Where(x => x.Data >= dateInicio && x.Data <= dateFim).ToList();
+            }
+            catch (Exception ex)
+            {
+                custos = null;
+                vendas = null;
+            }
         }
 
 

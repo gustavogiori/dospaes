@@ -1,8 +1,9 @@
 import { Venda } from "./venda";
+import { ItensVenda } from "./itensVenda";
 
 export class BoardVendas {
-    Id:number;
-    Produto:string;
-    Quantidade:number;
-    Vendas:Venda[];
+  Id: number;
+  Cliente: string;
+  Quantidade: number;
+  Venda: Venda;
 }

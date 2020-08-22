@@ -22,22 +22,18 @@ export class BoardVendasComponent implements OnInit {
       this.isCustomFilterOn = false;
     }
   }
-  
-  public onSaveUsernameChanged(value: boolean, idBoard: number,idVenda: number) {
 
-    let bordId:BoardVendas = this.boards.find((board) => {
+  public onEntregueChanged(value: boolean, idBoard: number, idVenda: number) {
+    let bordId: BoardVendas = this.boards.find((board) => {
       return board.Id === idBoard;
-    })
-    let vendaId = bordId.Vendas.find((venda) => {
-      return venda.Id === idVenda;
-    })
-    vendaId.Entregue=value;
-    this.vendaService.atualizarDadosEntrega(idVenda, vendaId) .then((res) => {
-      // Success
-      this.filterData();
-    })
+    });
+    bordId.Venda.Entregue = value;
+    this.vendaService
+      .atualizarDadosEntrega(idVenda, bordId.Venda)
+      .then((res) => {
+      });
   }
-  
+
   filterData() {
     this.loading = true;
     this.vendaService

@@ -8,8 +8,8 @@ namespace DosPaes.Models
     public class BoardVendas
     {
         public int Id { get; set; }
-        public string Produto { get; set; }
+        public string Cliente { get; set; }
         public int Quantidade { get; set; }
-        public List<Venda> Vendas { get; set; }
+        public Venda Venda { get; set; }
     }
 }

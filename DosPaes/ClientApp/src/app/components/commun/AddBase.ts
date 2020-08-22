@@ -1,7 +1,8 @@
-import { OnInit,EventEmitter  } from "@angular/core";
+import { OnInit, EventEmitter, Directive } from "@angular/core";
 import { Router } from "@angular/router";
 import { ServiceBaseService } from "../../service/serviceBase.service";
 
+@Directive()
 export class AddBase implements OnInit {
   loading = false;
   submitted = false;
@@ -29,7 +30,7 @@ export class AddBase implements OnInit {
       (error) => {
         this.submitted = false;
         this.hasError = true;
-        this.msgError = error;
+        this.msgError = error.error;
         this.loading = false;
         console.log(error);
       }

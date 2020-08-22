@@ -21,15 +21,43 @@ namespace DosPaes.Service
 
             return JsonService<List<Venda>>.GetJson(vendasDate);
         }
+        public async Task<List<ItensVenda>> GetItensVendaDate(DateTime date)
+        {
+            var itensVenda = await _context.ItensVendas.Include(x => x.Produto).Include(x => x.Venda).ToListAsync();
+            if (date != DateTime.MinValue)
+                itensVenda = itensVenda.Where(x => x.Venda.Data == date).ToList();
+            else
+                itensVenda = itensVenda.Where(x => x.Venda.Data != date).ToList();
 
+            return itensVenda;
+        }
         public async Task<List<Venda>> GetVendaDate(DateTime date)
         {
             List<Venda> vendasDate;
             if (date != DateTime.MinValue)
-                vendasDate = await _context.Vendas.Include(x => x.Produto).Include(x => x.Cliente).Where(x => x.Data == date).ToListAsync();
+                vendasDate = await _context.Vendas.Include(x => x.Cliente).Where(x => x.Data == date).ToListAsync();
             else
-                vendasDate = await _context.Vendas.Include(x => x.Produto).Include(x => x.Cliente).Where(x => x.Data != date).ToListAsync();
+                vendasDate = await _context.Vendas.Include(x => x.Cliente).Where(x => x.Data != date).ToListAsync();
 
+
+            foreach (var item in vendasDate)
+            {
+                item.ItensVenda = new List<ItensVenda>();
+                List<ItensVenda> list = new List<ItensVenda>();
+                try
+                {
+                    list = _context.ItensVendas.Include(x => x.Produto).Where(x => x.IdVenda == item.Id).ToList();
+                }
+                catch (Exception ex)
+                {
+
+                }
+                foreach (var itemVenda in list)
+                {
+                    item.ItensVenda.Add(itemVenda);
+                }
+
+            }
             return vendasDate;
         }
 
@@ -38,22 +66,16 @@ namespace DosPaes.Service
             var list = JsonService<List<Venda>>.GetObject(await GetJsonVendasFilterAsync(typeFilter, dateFilter));
             List<BoardVendas> board = new List<BoardVendas>();
             int id = 0;
-            foreach (var item in list.OrderBy(x => x.Produto.Descricao))
+            foreach (var item in list)
             {
-                if (board.Any(x => x.Produto == item.Produto.Descricao))
-                    continue;
-                else
-                {
-                    BoardVendas itemBoard = new BoardVendas();
-                    itemBoard.Id = id;
-                    itemBoard.Produto = item.ProdutoDescricao;
-                    itemBoard.Quantidade = list.Where(x => x.Produto.Id == item.Produto.Id && x.Entregue == false).Sum(x => x.Qnt);
-                    itemBoard.Vendas = new List<Venda>();
-                    itemBoard.Vendas.AddRange(list.Where(x => x.Produto.Id == item.Produto.Id));
-                    board.Add(itemBoard);
-                    id++;
-                }
-
+                BoardVendas itemBoard = new BoardVendas();
+                itemBoard.Id = id;
+                itemBoard.Cliente = item.ClienteNome;
+                var itens = item.ItensVenda.Where(x => x.IdVenda == item.Id);
+                itemBoard.Quantidade = itens.Sum(x => x.Quantidade);
+                itemBoard.Venda = item;
+                board.Add(itemBoard);
+                id++;
             }
             var json = JsonService<List<BoardVendas>>.GetJson(board);
             return json;

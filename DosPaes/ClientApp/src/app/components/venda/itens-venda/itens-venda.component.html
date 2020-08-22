@@ -1,0 +1,24 @@
+<div class="form-group">
+  <label for="IdProduto">Produto</label>
+  <select (ngModelChange)="onChangeProdutoSelecionado($event)" [(ngModel)]="this.itemVenda.IdProduto"
+    class="form-control" name="IdProduto" value="IdProduto" required>
+    <option value="">Selecione um produto...</option>
+    <option *ngFor="let produto of produtos" [ngValue]="produto.Id">
+      {{ produto.Descricao }}</option>
+  </select>
+  <input value="Novo Produto" data-toggle="modal" data-target="#modalProduto" class="btn btn-primary" type="button">
+  <input value="Atualizar Produtos" class="btn btn-default" (click)="atualizarProduto()" type="button">
+</div>
+<div class="submit-form">
+  <div class="form-group">
+    <label for="qnt">Quantidade</label>
+    <input (ngModelChange)="onChangeQntSelecionado($event)" type="number" class="form-control" id="qnt" required
+      [(ngModel)]="itemVenda.Quantidade" name="qnt" />
+  </div>
+  <div class="form-group">
+    <label for="valor">Total</label>
+    <input class="form-control" id="valor" required [(ngModel)]="itemVenda.Total" currencyMask
+      [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" name="valor" />
+  </div>
+
+  <button id="btnSalvar" (click)="buttonClick()" class="btn btn-success btnStyle">Adicionar</button>

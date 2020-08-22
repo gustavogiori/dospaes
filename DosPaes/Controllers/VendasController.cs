@@ -9,11 +9,13 @@ using DosPaes.Models;
 using System.Text.Json;
 using Newtonsoft.Json;
 using DosPaes.Service;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DosPaes.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Policy = Policies.User)]
     public class VendasController : ControllerBase
     {
         private readonly DataBaseContext _context = new DataBaseContext();
@@ -83,7 +85,8 @@ namespace DosPaes.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<string>> GetVenda(int id)
         {
-            var venda = _context.Vendas.Include(x => x.Cliente).Include(x => x.Produto).FirstOrDefault(x => x.Id == id);
+            var venda = _context.Vendas.Include(x => x.Cliente).FirstOrDefault(x => x.Id == id);
+            venda.ItensVenda = _context.ItensVendas.Include(x => x.Produto).Where(x => x.IdVenda == venda.Id).ToList();
 
             if (venda == null)
             {
@@ -104,11 +107,25 @@ namespace DosPaes.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(venda).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                _context.Entry(venda).State = EntityState.Modified;
+                int salvou = await _context.SaveChangesAsync();
+
+                if (salvou == 1)
+                {
+                    try
+                    {
+                        await RemoveItensVenda(venda);
+                        await AdicionarItensVenda(venda);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (Exception ex)
+                    {
+                        return this.StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                    }
+                }
+
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -125,16 +142,69 @@ namespace DosPaes.Controllers
             return NoContent();
         }
 
+        private async Task RemoveItensVenda(Venda venda)
+        {
+            foreach (var ItemVenda in _context.ItensVendas.Where(x => x.IdVenda == venda.Id).ToList())
+            {
+                _context.ItensVendas.Remove(ItemVenda);
+            }
+        }
+
         // POST: api/Vendas
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
         public async Task<ActionResult<Venda>> PostVenda(Venda venda)
         {
-            _context.Vendas.Add(venda);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Vendas.Add(venda);
+                int salvou = await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetVenda", new { id = venda.Id }, venda);
+                if (salvou == 1)
+                {
+                    await AdicionarItensVenda(venda);
+                    int salvouItens = await _context.SaveChangesAsync();
+
+                    if (salvouItens == 0)
+                        _context.Vendas.Remove(venda);
+
+                    await _context.SaveChangesAsync();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                var teste = ex.Message;
+                _context.Vendas.Remove(venda);
+                _context.ItensVendas.RemoveRange(venda.ItensVenda);
+                _context.SaveChanges();
+                return NotFound(
+                     new
+                     {
+                         Mensagem = ex.Message,
+                         Erro = true
+                     });
+            }
+            return Ok();
+        }
+
+        private async Task AdicionarItensVenda(Venda venda)
+        {
+            foreach (ItensVenda itemVenda in venda.ItensVenda)
+            {
+                try
+                {
+                    itemVenda.IdVenda = venda.Id;
+                    itemVenda.Id = 0;
+                    itemVenda.Produto = null;
+                    _context.ItensVendas.Add(itemVenda);
+                }
+                catch (Exception ex)
+                {
+                    throw;
+                }
+            }
         }
 
         // DELETE: api/Vendas/5
@@ -146,7 +216,7 @@ namespace DosPaes.Controllers
             {
                 return NotFound();
             }
-
+            await RemoveItensVenda(venda);
             _context.Vendas.Remove(venda);
             await _context.SaveChangesAsync();
 
