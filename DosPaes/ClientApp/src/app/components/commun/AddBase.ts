@@ -27,12 +27,15 @@ export class AddBase implements OnInit {
         this.loading = false;
 
       },
-      (error) => {
+      (erro) => {
         this.submitted = false;
         this.hasError = true;
-        this.msgError = error.error;
         this.loading = false;
-        console.log(error);
+        this.msgError=erro.error;
+        console.log(erro.error);
+        console.log(erro.status);
+        console.log(erro);
+        console.log("erro ao realizar cadastro!")
       }
     );
   }

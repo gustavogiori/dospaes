@@ -158,6 +158,9 @@ namespace DosPaes.Controllers
         {
             try
             {
+                if (venda.IdCliente == 0)
+                    throw new Exception("Cliente é de preenchimento obrigatório!");
+
                 _context.Vendas.Add(venda);
                 int salvou = await _context.SaveChangesAsync();
 

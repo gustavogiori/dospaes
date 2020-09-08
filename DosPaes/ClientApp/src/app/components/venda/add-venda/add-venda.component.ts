@@ -49,6 +49,7 @@ export class AddVendaComponent extends AddBase {
       ClienteEndereco: "",
       ClienteTelefone: "",
       ItensVenda: null,
+      Observacao:""
     };
   }
 
@@ -84,9 +85,9 @@ export class AddVendaComponent extends AddBase {
   openModalDialog() {
     if (!this.isEdit) {
       this.currentItemVenda = new ItensVenda();
-      this.currentItemVenda.Total = undefined;
-      this.currentItemVenda.IdProduto = undefined;
-      this.currentItemVenda.PrecoProduto = undefined;
+      this.currentItemVenda.Total = 0;
+      this.currentItemVenda.IdProduto = 0;
+      this.currentItemVenda.PrecoProduto = 0;
     }
     this.display = "block";
   }

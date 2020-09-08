@@ -14,6 +14,7 @@ namespace DosPaes.Models
         public decimal Valor { get; set; }
         public bool Entregue { get; set; }
         public int Qnt { get; set; }
+        public string Observacao { get; set; }
 
         [NotMapped]
         public string ClienteNome

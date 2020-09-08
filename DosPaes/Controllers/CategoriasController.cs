@@ -56,7 +56,7 @@ namespace DosPaes.Controllers
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException ex)
             {
                 if (!CategoriaExists(id))
                 {
@@ -64,7 +64,7 @@ namespace DosPaes.Controllers
                 }
                 else
                 {
-                    throw;
+                    throw ex;
                 }
             }
 

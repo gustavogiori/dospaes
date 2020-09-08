@@ -9,6 +9,7 @@ using DosPaes.Models;
 using System.Text.Json;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Authorization;
+using System.Net;
 
 namespace DosPaes.Controllers
 {
@@ -64,7 +65,7 @@ namespace DosPaes.Controllers
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException ex)
             {
                 if (!CustoExists(id))
                 {
@@ -72,7 +73,7 @@ namespace DosPaes.Controllers
                 }
                 else
                 {
-                    throw;
+                    throw ex;
                 }
             }
 
@@ -85,10 +86,17 @@ namespace DosPaes.Controllers
         [HttpPost]
         public async Task<ActionResult<Custo>> PostCusto(Custo custo)
         {
-            _context.Custos.Add(custo);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Custos.Add(custo);
+                await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCusto", new { id = custo.Id }, custo);
+                return CreatedAtAction("GetCusto", new { id = custo.Id }, custo);
+            }
+            catch(Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.BadRequest, ex.Message);
+            }
         }
 
         // DELETE: api/Custos/5

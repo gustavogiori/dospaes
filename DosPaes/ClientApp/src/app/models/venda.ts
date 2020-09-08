@@ -12,4 +12,5 @@ export class Venda {
   ClienteEndereco: string;
   ClienteTelefone: string;
   ItensVenda: ItensVenda[];
+  Observacao:string;
 }

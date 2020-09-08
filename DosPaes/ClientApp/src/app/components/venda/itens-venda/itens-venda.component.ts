@@ -52,6 +52,8 @@ export class ItensVendaComponent implements OnInit {
   constructor(private produtoService: ProdutoService) {}
   closeModalDialog() {}
   ngOnInit() {
+    this.itemVenda = new ItensVenda();
+    this._itemVenda= new ItensVenda();
     this.atualizarProduto();
   }
   atualizarProduto() {

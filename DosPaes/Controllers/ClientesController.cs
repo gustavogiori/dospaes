@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using DosPaes.Models;
 using DosPaes.Service;
 using Microsoft.AspNetCore.Authorization;
+using System.Net;
 
 namespace DosPaes.Controllers
 {
@@ -89,17 +90,43 @@ namespace DosPaes.Controllers
         {
             try
             {
-                _context.Cliente.Add(cliente);
-                await _context.SaveChangesAsync();
+                if (string.IsNullOrEmpty(cliente.Nome))
+                {
+                    return StatusCode((int)HttpStatusCode.BadRequest, "Nome é obrigatório e não está preenchido");
+                }
+                if (TryValidateModel(cliente))
+                {
+                    _context.Cliente.Add(cliente);
+                    await _context.SaveChangesAsync();
 
-                return CreatedAtAction("GetCliente", new { id = cliente.Id }, cliente);
+                    return CreatedAtAction("GetCliente", new { id = cliente.Id }, cliente);
+                }
+
+                return StatusCode((int)HttpStatusCode.BadRequest, GetErros());
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode((int)HttpStatusCode.BadRequest, ex.Message);
             }
         }
 
+        private string GetErros()
+        {
+            if (!ModelState.IsValid)
+            {
+                var modelErrors = "";
+                foreach (var modelState in ModelState.Values)
+                {
+                    foreach (var modelError in modelState.Errors)
+                    {
+                        modelErrors += modelError.ErrorMessage;
+                        modelErrors += Environment.NewLine;
+                    }
+                }
+                return modelErrors;
+            }
+            return "";
+        }
         // DELETE: api/Clientes/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Cliente>> DeleteCliente(int id)

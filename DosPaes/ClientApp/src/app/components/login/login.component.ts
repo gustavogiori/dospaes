@@ -56,7 +56,8 @@ export class LoginComponent implements OnInit {
           console.log(error);
           this.hasError = true;
           this.msgError = "Ops! Ocorreu um erro ao logar, tente novamente mais tarde!";
-          if(error===401){
+          
+          if(error.status===401){
             this.msgError="Usuário ou senha inválidos!";
           }
 

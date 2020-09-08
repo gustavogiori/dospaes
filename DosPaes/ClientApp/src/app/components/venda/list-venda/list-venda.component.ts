@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { Venda } from "src/app/models/venda";
 import { VendaService } from "../../../service/venda.service";
 import { ListBase } from "../../commun/ListBase";
 
@@ -44,6 +45,7 @@ export class ListVendaComponent extends ListBase {
   }
 
   ngOnInit() {
+    this.records= new Array<Venda>();
     super.ngOnInit();
     this.typeFilter="H";
     this.tableHead = new Array<String>(

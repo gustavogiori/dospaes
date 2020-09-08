@@ -28,6 +28,10 @@
           [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }" name="valor" />
       </div>
 
+        <div class="form-group">
+          <label for="obs">Observação</label>
+          <input type="text" class="form-control" id="obs" required [(ngModel)]="venda.Observacao" name="obs" />
+      </div>
       <table class="table table-striped table-bordered table-list">
         <thead class="thead-light">
           <th>Produto</th>
@@ -82,7 +86,7 @@
 
       <!-- modal-footer -->
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" (click)="closeModalDialog()">Close</button>
+        <button type="button" class="btn btn-default" (click)="closeModalDialog()">Fechar</button>
       </div>
     </div>
   </div>

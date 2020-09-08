@@ -7,7 +7,6 @@ using System.Net.Http;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using DosPaes.Errors;
 using DosPaes.Models;
 using DosPaes.Security;
 using Microsoft.AspNetCore.Authorization;
